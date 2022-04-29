@@ -37,7 +37,7 @@ Commits must follow the [conventional commit specification](https://www.conventi
 
 `type(scope): subject`
 
-The type must be one of the following options
+The type must be one of the following options:
 
 `[ 'build', 'chore', 'ci', 'docs', 'feat', 'fix', 'perf', 'refactor', 'revert', 'style', 'test' ]`
 
