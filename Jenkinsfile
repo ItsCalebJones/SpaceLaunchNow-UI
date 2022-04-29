@@ -42,7 +42,7 @@ pipeline{
 		dockerTag = defineDockerTag()
         imageName = defineImageName()
 		branchName = defineBranchName()
-		dockerReg = registry + ":" + imageName
+		dockerReg = "${registry}:${imageName}"
 		dockerImage = ''
         DISCORD_URL = credentials('DiscordURL')
         COMMIT_MESSAGE = commitMessage()
@@ -60,9 +60,11 @@ pipeline{
 		}
         stage('Run Tests') {
             steps {
-                def buildArg = '--target builder .'
-                dockerImage = docker.build(dockerReg, buildArg)
-                sh "docker run -e CI=true --rm ${dockerReg} npm test -- --coverage"
+                script{
+                    def buildArg = '--target builder .'
+                    dockerImage = docker.build(dockerReg, buildArg)
+                    sh "docker run -e CI=true --rm ${dockerReg} npm test -- --coverage"
+                }
             }
         }
 		stage('Build Docker Image'){
