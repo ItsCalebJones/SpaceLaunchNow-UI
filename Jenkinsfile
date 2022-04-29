@@ -113,7 +113,7 @@ pipeline{
     post {
         always {
 
-            discordSend description: "**Status:** ${currentBuild.currentResult}\n**Branch: **${env.BRANCH_NAME}\n**Build: **${env.BUILD_NUMBER}\n\n${COMMIT_MESSAGE},
+            discordSend description: "**Status:** ${currentBuild.currentResult}\n**Branch: **${env.BRANCH_NAME}\n**Build: **${env.BUILD_NUMBER}\n\n${COMMIT_MESSAGE}",
                 footer: "",
                 link: env.BUILD_URL,
                 result: currentBuild.currentResult,
