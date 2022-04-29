@@ -1,0 +1,52 @@
+image:
+  repository: registry.digitalocean.com/spacelaunchnow-registry/sln-ui
+  tag: production
+  pullPolicy: Always
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+env:
+  normal: {}
+  web: {}
+
+secret: {}
+
+
+web:
+  replicaCount: 1
+  port: 8080
+  autoscaling:
+    enabled: true
+    minReplicas: 3
+    maxReplicas: 40
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  budget:
+    minAvailable: 1 # Ignored when replicaCount is 1
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+    # podAntiAffinity:
+    #   preferredDuringSchedulingIgnoredDuringExecution:
+    #   - weight: 100
+    #     podAffinityTerm:
+    #       labelSelector:
+    #         matchExpressions:
+    #         - key: app.kubernetes.io/instance
+    #           operator: In
+    #           values:
+    #           - glitchtip-prod-web
+    #       topologyKey: kubernetes.io/hostname
+  service:
+    type: ClusterIP
+    port: 80

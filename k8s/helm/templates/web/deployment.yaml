@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.fullname" . }}-web
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+    app.kubernetes.io/component: web
+spec:
+  {{- if not .Values.web.autoscaling.enabled }}
+  replicas: {{ .Values.web.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: web
+  template:
+    metadata:
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
+        checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        tag: "{{ .Values.image.tag }}"
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: web
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- if .Values.web.args }}
+          args: {{- toYaml .Values.web.args | nindent 10}}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.web.port | default 8080 }}
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: {{ .Values.web.livenessProbe.failureThreshold }}
+            httpGet:
+              path: {{ .Values.web.livenessProbe.path | default "/_health/" }}
+              port: {{ .Values.web.port | default 8080 }}
+            initialDelaySeconds: {{ .Values.web.livenessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.web.livenessProbe.timeoutSeconds }}
+          readinessProbe:
+            failureThreshold: {{ .Values.web.readinessProbe.failureThreshold }}
+            httpGet:
+              path: {{ .Values.web.readinessProbe.path | default "/_health/" }}
+              port: {{ .Values.web.port | default 8080 }}
+            initialDelaySeconds: {{ .Values.web.readinessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.web.readinessProbe.timeoutSeconds }}
+          resources:
+            {{- toYaml .Values.web.resources | nindent 12 }}
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          envFrom:
+            - secretRef:
+                name: {{ include "app.fullname" . }}
+            - configMapRef:
+                name: {{ include "app.fullname" . }}-web
+      {{- with .Values.web.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.web.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.web.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
