@@ -70,7 +70,7 @@ pipeline{
 		stage('Build Docker Image'){
 			steps{
 				script{
-                    dockerImage = docker.build(dockerReg, buildArg)
+                    dockerImage = docker.build(dockerReg)
 				}
 			}
 		}
