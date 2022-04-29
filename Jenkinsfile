@@ -80,7 +80,7 @@ pipeline{
 				script{
 					docker.withRegistry(registryURL, registryCredential){
 						dockerImage.push()
-						if (env.BRANCH_NAME == 'master') {
+						if (env.BRANCH_NAME == 'main') {
 						    dockerImage.push("${dockerTag}")
 						    dockerImage.push("production")
 						} else {
@@ -92,7 +92,7 @@ pipeline{
 		}
 		stage('Deploy Helm Release'){
             when {
-                branch 'master'
+                branch 'main'
             }
 		    steps {
 		        script {
