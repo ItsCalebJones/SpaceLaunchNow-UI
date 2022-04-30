@@ -105,7 +105,7 @@ pipeline{
                         then
                             helm install $RELEASE_NAME k8s/helm/ --namespace=$STAGING_NAMESPACE --values k8s/helm/values.yaml;
                         else
-                            helm upgrade $RELEASE_NAME k8s/helm/ --namespace=$STAGING_NAMESPACE --values k8s/helm/values.yaml --recreate-pods;
+                            helm upgrade $RELEASE_NAME k8s/helm/ --namespace=$STAGING_NAMESPACE --values k8s/helm/values.yaml;
                         fi
                     '''
 		        }

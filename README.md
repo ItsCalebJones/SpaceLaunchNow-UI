@@ -44,6 +44,12 @@ The type must be one of the following options:
 For now - scope is optional but will map to packages / directories of the code base as the project matures.
 
 
+### Generate API Code
+
+```bash
+npx openapi-generator-cli generate -g typescript-fetch -i https://spacelaunchnow.me/api/ll/2.2.0/swagger.json -o src/services/api/ --additional-properties=typescriptThreePlus=true
+```
+
 ## Acknowledgments
 
 The wonderful devs and librarians over at [The Space Devs](https://thespacedevs.com)!
