@@ -1,4 +1,4 @@
-FROM node:16.15.0-alpine as builder
+FROM node:16.15.0-alpine AS base
 
 WORKDIR /app
 
@@ -9,11 +9,11 @@ COPY package-lock.json ./
 RUN npm ci --silent
 RUN npm install react-scripts@5.0.1 -g --silent
 
+FROM base AS builder
 COPY . ./
-
 RUN npm run build
 
-FROM nginx:stable-alpine as production
+FROM nginx:stable-alpine AS production
 COPY --from=builder /app/build /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

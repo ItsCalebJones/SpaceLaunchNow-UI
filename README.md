@@ -17,7 +17,13 @@ docker run \
     spacelaunchnow-ui:tag
 ```
 
-## Build
+## Build for Local Dev
+
+`docker build --target base -t spacelaunchnow-ui-dev:tag .`
+
+`docker run -it --rm -p 3000:3000 -v /$(pwd):/app spacelaunchnow-ui-dev:tag npm run start`
+
+## Build for Prod
 
 `docker build -t spacelaunchnow-ui:tag .`
 
