@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
-import logo from './logo.svg';
-import './App.css';
+// @mui material components
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+// Material Kit 2 React themes
+import theme from "./assets/theme";
+
 import {
   Configuration,
   PaginatedLaunchSerializerCommonList,
@@ -24,20 +29,12 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        
+    </ThemeProvider>
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
         <button onClick={onClick}>Get Launches</button>
         {launches && <LaunchItemList launches={launches.results!}/>}
       </header>
