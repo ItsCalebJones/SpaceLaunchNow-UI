@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,17 +11,18 @@ import {
   PaginatedLaunchSerializerCommonList,
   LaunchApi,
   BASE_PATH,
-  LaunchSerializerCommon
-} from "./services/api/"
+  LaunchSerializerCommon,
+} from "./services/api/";
 
 function App() {
   const configuration = new Configuration({
     basePath: BASE_PATH,
   });
 
-  const launchApi = new LaunchApi(configuration)
+  const launchApi = new LaunchApi(configuration);
 
-  const [launches, setLaunches] = useState<PaginatedLaunchSerializerCommonList | null>(null);
+  const [launches, setLaunches] =
+    useState<PaginatedLaunchSerializerCommonList | null>(null);
 
   const onClick = async () => {
     const loadedPosts = await launchApi.launchUpcomingList();
@@ -32,17 +33,20 @@ function App() {
     <div>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        
-    </ThemeProvider>
+      </ThemeProvider>
       <header className="App-header">
         <button onClick={onClick}>Get Launches</button>
-        {launches && <LaunchItemList launches={launches.results!}/>}
+        {launches && <LaunchItemList launches={launches.results!} />}
       </header>
     </div>
   );
 }
 
-const LaunchItemList = ({ launches }: { launches: LaunchSerializerCommon[] }) => (
+const LaunchItemList = ({
+  launches,
+}: {
+  launches: LaunchSerializerCommon[];
+}) => (
   <table>
     <thead>
       <tr>
