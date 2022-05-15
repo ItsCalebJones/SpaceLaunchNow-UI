@@ -1,70 +1,42 @@
-import React, { useState } from "react";
-// @mui material components
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-
-// Material Kit 2 React themes
-import theme from "./assets/theme";
-
-import {
-  Configuration,
-  PaginatedLaunchSerializerCommonList,
-  LaunchApi,
-  BASE_PATH,
-  LaunchSerializerCommon,
-} from "./services/api/";
+import React from "react";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { createTheme, ThemeOptions } from "@mui/material/styles";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { routes as appRoutes } from "./routes";
+import Layout from "./components/Layout";
 
 function App() {
-  const configuration = new Configuration({
-    basePath: BASE_PATH,
+
+  // define theme
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#1976D2',
+      },
+      secondary: {
+        main: '#F44336',
+      },
+    },
   });
 
-  const launchApi = new LaunchApi(configuration);
-
-  const [launches, setLaunches] =
-    useState<PaginatedLaunchSerializerCommonList | null>(null);
-
-  const onClick = async () => {
-    const loadedPosts = await launchApi.launchUpcomingList();
-    setLaunches(loadedPosts);
-  };
-
   return (
-    <div>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-      </ThemeProvider>
-      <header className="App-header">
-        <button onClick={onClick}>Get Launches</button>
-        {launches && <LaunchItemList launches={launches.results!} />}
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Layout>
+          <Routes>
+            {appRoutes.map((route) => (
+              <Route
+                key={route.key}
+                path={route.path}
+                element={<route.component />}
+              />
+            ))}
+          </Routes>
+        </Layout>
+      </Router>
+    </ThemeProvider>
   );
 }
-
-const LaunchItemList = ({
-  launches,
-}: {
-  launches: LaunchSerializerCommon[];
-}) => (
-  <table>
-    <thead>
-      <tr>
-        <th>id</th>
-        <th>userId</th>
-        <th>title</th>
-      </tr>
-    </thead>
-    <tbody>
-      {launches.map(({ name, net, status }) => (
-        <tr>
-          <td>{name}</td>
-          <td>{net?.toDateString()}</td>
-          <td>{status?.name}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-);
 
 export default App;
