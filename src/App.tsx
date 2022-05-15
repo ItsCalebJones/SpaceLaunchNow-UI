@@ -2,25 +2,14 @@ import React from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme, ThemeOptions } from "@mui/material/styles";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { routes as appRoutes } from "./routes";
-import Layout from "./components/Layout";
+import { routes as appRoutes } from "@sln/routes";
+import Layout from "@sln/components/Layout";
+import { SLNThemeProvider } from "@sln/styles";
 
 function App() {
 
-  // define theme
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#1976D2',
-      },
-      secondary: {
-        main: '#F44336',
-      },
-    },
-  });
-
   return (
-    <ThemeProvider theme={theme}>
+    <SLNThemeProvider>
       <CssBaseline />
       <Router>
         <Layout>
@@ -35,7 +24,7 @@ function App() {
           </Routes>
         </Layout>
       </Router>
-    </ThemeProvider>
+    </SLNThemeProvider>
   );
 }
 

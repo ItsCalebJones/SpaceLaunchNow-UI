@@ -11,11 +11,10 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { routes } from "../routes";
+import { routes } from "@sln/routes";
 
 import { NavLink } from "react-router-dom";
 import { Link } from '@mui/material';
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -40,6 +39,8 @@ const ResponsiveAppBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+
+          {/* Expanded Title */}
           <Typography
             variant="h6"
             noWrap
@@ -56,6 +57,7 @@ const ResponsiveAppBar = () => {
             Space Launch Now
           </Typography>
 
+          {/* Collapsed View */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -101,6 +103,8 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
+
+          {/* Collapsed Title */}
           <Typography
             variant="h5"
             noWrap
@@ -118,6 +122,7 @@ const ResponsiveAppBar = () => {
             Space Launch Now
           </Typography>
 
+          {/* Expanded Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {routes.map((page) => (
               <Link
