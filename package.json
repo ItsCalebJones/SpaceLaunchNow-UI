@@ -40,6 +40,7 @@
     "swiper": "7.3.4",
     "typescript": "^4.6.4",
     "typed.js": "2.0.12",
+    "tss-react": "^3.6.0",
     "uuid": "8.3.2",
     "web-vitals": "^2.1.4"
   },
