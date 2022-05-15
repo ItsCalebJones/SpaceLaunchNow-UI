@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('Renders Space Launch Now text', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Get Launches/i);
-  expect(linkElement).toBeInTheDocument();
+  const linkElement = screen.getAllByText(/Space Launch Now/);
+  expect(linkElement.lengeth) > 0;
 });
