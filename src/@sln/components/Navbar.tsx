@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { SLNTypography } from './SLNTypography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
@@ -16,23 +17,25 @@ import { routes } from "@sln/routes";
 import { NavLink } from "react-router-dom";
 import { Link } from '@mui/material';
 
+const settings = ['Upcoming Launches', 'Previous Launches', 'SpaceX', 'Florida', "Vandenberg", "Launch Database"];
+
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElLaunches, setAnchorElLaunches] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
+  const handleOpenLaunchMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElLaunches(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleCloseLaunchMenu = () => {
+    setAnchorElLaunches(null);
   };
 
   return (
@@ -61,7 +64,7 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
+              aria-label="Launch"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
@@ -141,6 +144,36 @@ const ResponsiveAppBar = () => {
                 </Button>
             </Link>
             ))}
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+              <IconButton onClick={handleOpenLaunchMenu} sx={{ p: 0 }}>
+               <Typography
+               sx={{ my: 2, color: 'white', display: 'block', fontWeight: 500 }}
+               >LAUNCHES</Typography>
+              </IconButton>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElLaunches}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElLaunches)}
+              onClose={handleCloseLaunchMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseLaunchMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
           </Box>
 
         </Toolbar>
