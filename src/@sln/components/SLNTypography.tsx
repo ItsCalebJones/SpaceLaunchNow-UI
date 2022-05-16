@@ -17,9 +17,16 @@ standard: {
     
   // titles
   boldTitle: {
-    fontSize: '5rem', // 16px
+    fontSize: '5rem',
     fontWeight: 700,
-    lineHeight: 1.6,
+    lineHeight: 1.2,
+    color: theme.palette.common.white,
+  },
+  // subtitles
+  subTitle: {
+    fontSize: '3rem',
+    fontWeight: 200,
+    lineHeight: 1.2,
     color: theme.palette.common.white,
   },
 }))

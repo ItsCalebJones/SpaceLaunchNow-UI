@@ -7,7 +7,7 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout: FC<LayoutProps> = ({ children }) => {
+const BaseLayout: FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <CssBaseline />
@@ -29,4 +29,4 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   );
 };
 
-export default Layout;
+export default BaseLayout;
