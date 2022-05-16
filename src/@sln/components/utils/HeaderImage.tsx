@@ -60,7 +60,8 @@ const HeaderIcon: FC<any> = (): ReactElement => {
       >
         <Grid
           container
-          xs = {10}
+          xs={10}
+          item={true}
           direction={"column"}
           justifyContent="center"
           alignItems="center">
