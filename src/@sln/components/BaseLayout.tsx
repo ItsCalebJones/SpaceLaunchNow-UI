@@ -5,9 +5,10 @@ import Footer from "./Footer";
 
 interface LayoutProps {
   children: ReactNode;
+  transparent?: boolean
 }
 
-const BaseLayout: FC<LayoutProps> = ({ children }) => {
+const BaseLayout: FC<LayoutProps> = ({ children, transparent}) => {
   return (
     <>
       <CssBaseline />
@@ -21,12 +22,16 @@ const BaseLayout: FC<LayoutProps> = ({ children }) => {
           flexGrow: 1,
         }}
       >
-        <Navbar />
+        <Navbar transparent={transparent} />
         {children}
         <Footer />
       </Box>
     </>
   );
 };
+
+BaseLayout.defaultProps = {
+  transparent: false,
+}
 
 export default BaseLayout;

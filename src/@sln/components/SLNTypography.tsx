@@ -5,7 +5,7 @@ import React from 'react'
 
 // TODO build out commonly used typography, titles, subtitles, etc
 const useStyles = makeStyles()((theme: Theme) => ({
-standard: {
+  standard: {
     fontSize: '1rem', // 16px
     fontWeight: 400,
     lineHeight: 1.43,
@@ -13,7 +13,22 @@ standard: {
     fontFamily: theme.typography.fontFamily,
     margin: 0,
     padding: 0,
-},
+  },
+  
+  buttonText: {
+    color: "white",
+    fontSize: '12px',
+    fontWeight: 400,
+    lineHeight: 1.6,
+  },
+
+  subButtonText: {
+    color: "black",
+    fontSize: '.8125rem',
+    fontWeight: 300,
+    lineHeight: 1.4,
+    textTransform: "none",
+  },
     
   // titles
   boldTitle: {
@@ -21,6 +36,7 @@ standard: {
     fontWeight: 700,
     lineHeight: 1.2,
     color: theme.palette.common.white,
+  
   },
   // subtitles
   subTitle: {
@@ -54,6 +70,7 @@ export const SLNTypography: React.FC<Props & TypographyProps> = ({
         className={cx(classes.standard, classes[kind], userClassName)}
         // @ts-ignore - weird ts error but is harmless i think
         variant={getVariant(kind)}
+        uppercase={false}
       {...rest}
     />
   )

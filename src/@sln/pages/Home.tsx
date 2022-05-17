@@ -3,6 +3,8 @@ import React, {ReactElement, FC, useState} from "react";
 import { Box, Button, Container, Grid, Theme, Typography } from "@mui/material";
 import { makeStyles } from "@sln/styles/"
 import HeaderImage from "@sln/components/utils/HeaderImage";
+import BaseLayout from "@sln/components/BaseLayout";
+import Navbar from "@sln/components/Navbar";
 
 const useStyles = makeStyles()((theme: Theme) => ({
 
@@ -12,9 +14,11 @@ const Home: FC<any> = (): ReactElement => {
 
   const { classes } = useStyles()
 
-    
-    return (
-      <Box>
+  
+  // TODO figure out how to stack these properly
+  return (
+    <Box>
+      <Navbar transparent={true} />
         <Grid
           container
           direction={"column"}

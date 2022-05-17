@@ -1,27 +1,29 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { SLNTypography } from './SLNTypography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import { routes } from "@sln/routes";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import { SLNTypography } from "./SLNTypography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import SendIcon from '@mui/icons-material/ArrowDropDown';
+import { MenuRoute, routes } from "@sln/routes";
 
 import { NavLink } from "react-router-dom";
-import { Link } from '@mui/material';
+import { Link, useTheme } from "@mui/material";
+import HorizontalRule from "./utils/HorizontalRule";
 
-const settings = ['Upcoming Launches', 'Previous Launches', 'SpaceX', 'Florida', "Vandenberg", "Launch Database"];
-
-const ResponsiveAppBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElLaunches, setAnchorElLaunches] = React.useState<null | HTMLElement>(null);
+const ResponsiveAppBar = ({ transparent}) => {
+  const theme = useTheme();
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElLaunches, setAnchorElLaunches] =
+    React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -38,11 +40,17 @@ const ResponsiveAppBar = () => {
     setAnchorElLaunches(null);
   };
 
+
   return (
-    <AppBar position="static">
+    <AppBar position="static"
+      style={{
+      backgroundColor: transparent ? "transparent" : theme.palette.primary.main,
+      boxShadow: transparent
+        ? "5px 0px 27px -5px rgba(0, 0, 0, 0.3) !important"
+        : undefined
+    }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-
           {/* Expanded Title */}
           <Typography
             variant="h6"
@@ -51,17 +59,17 @@ const ResponsiveAppBar = () => {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
+              display: { xs: "none", md: "flex" },
               fontWeight: 700,
-              color: 'inherit',
-              textDecoration: 'none',
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             Space Launch Now
           </Typography>
 
           {/* Collapsed View */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="Launch"
@@ -76,18 +84,18 @@ const ResponsiveAppBar = () => {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: "block", md: "none" },
               }}
             >
               {routes.map((page) => (
@@ -98,10 +106,10 @@ const ResponsiveAppBar = () => {
                   color="black"
                   underline="none"
                   variant="button"
-                  >
+                >
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page.title}</Typography>
-                    </MenuItem>
+                  </MenuItem>
                 </Link>
               ))}
             </Menu>
@@ -115,70 +123,121 @@ const ResponsiveAppBar = () => {
             href=""
             sx={{
               mr: 2,
-              display: { xs: 'flex', md: 'none' },
+              display: { xs: "flex", md: "none" },
               flexGrow: 1,
               fontWeight: 700,
-              color: 'inherit',
-              textDecoration: 'none',
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             Space Launch Now
           </Typography>
 
           {/* Expanded Menu */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {routes.map((page) => (
-              <Link
-                key={page.key}
-                component={NavLink}
-                to={page.path}
-                color="black"
-                underline="none"
-                variant="button"
-                >
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page.title}
-                </Button>
-            </Link>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {routes.map((route) => (
+              <NavbarButton
+                menuRoute={route}
+                handleCloseNavMenu={handleCloseNavMenu}
+                handleOpenLaunchMenu={handleOpenLaunchMenu}
+                handleCloseLaunchMenu={handleCloseLaunchMenu}
+                anchorElLaunches={anchorElLaunches}
+              />
             ))}
           </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-              <IconButton onClick={handleOpenLaunchMenu} sx={{ p: 0 }}>
-               <Typography
-               sx={{ my: 2, color: 'white', display: 'block', fontWeight: 500 }}
-               >LAUNCHES</Typography>
-              </IconButton>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElLaunches}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElLaunches)}
-              onClose={handleCloseLaunchMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseLaunchMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-
         </Toolbar>
       </Container>
     </AppBar>
   );
 };
+
+ResponsiveAppBar.defaultProps = {
+  transparent: false,
+}
+
+interface NavbarButtonProps {
+  menuRoute: MenuRoute;
+  handleCloseNavMenu: any;
+  handleOpenLaunchMenu: any;
+  handleCloseLaunchMenu: any;
+  anchorElLaunches: any;
+}
+
+const NavbarButton: React.FC<NavbarButtonProps> = ({
+  menuRoute,
+  handleCloseNavMenu,
+  handleOpenLaunchMenu,
+  handleCloseLaunchMenu,
+  anchorElLaunches
+
+}) => {
+  if (menuRoute.submenu) {
+    return (
+      <div>
+        <Button
+          endIcon={<SendIcon />}
+          onClick={handleOpenLaunchMenu}
+          sx={{ my: 2, color: "white" }}
+
+        >
+          <SLNTypography kind="buttonText">{menuRoute.title}</SLNTypography>
+        </Button>
+        <Menu
+          sx={{
+            mt: "45px",
+            transformOrigin: "0 0"
+          }}
+          id="menu-appbar"
+          anchorEl={anchorElLaunches}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          open={Boolean(anchorElLaunches)}
+          onClose={handleCloseLaunchMenu}
+        >
+          {menuRoute.submenu.map((subroute) => (
+            // If key is null then we use it as a spacer
+            subroute.key
+              ? <MenuItem key={subroute.key} onClick={handleCloseLaunchMenu}>
+                <Link
+                    key={subroute.key}
+                    component={NavLink}
+                    to={subroute.path}
+                    underline="none"
+                    variant="button"
+                  >
+                  <SLNTypography kind="subButtonText">{subroute.title}</SLNTypography>
+                </Link>
+              </MenuItem>
+            : <HorizontalRule/>
+          ))}
+        </Menu>
+      </div>
+    );
+  } else {
+    return (
+      <Link
+        key={menuRoute.key}
+        component={NavLink}
+        to={menuRoute.path}
+        underline="none"
+        variant="button"
+      >
+        <Button
+          onClick={handleCloseNavMenu}
+          sx={{ my: 2, color: "white"}}
+        >
+          <SLNTypography kind="buttonText">{menuRoute.title}</SLNTypography>
+        </Button>
+      </Link>
+    );
+  }
+};
+
 export default ResponsiveAppBar;
