@@ -50,23 +50,32 @@ pipeline{
 	}
 
 	stages{
-        // stage('Run Tests') {
-        //     steps {
-        //         script{
-        //             def buildArg = '--target builder .'
-        //             dockerImage = docker.build(dockerReg, buildArg)
-        //             sh "docker run -e CI=true --rm ${dockerReg} npm test -- --coverage"
-        //         }
-        //     }
-        // }
-		stage('Build Docker Image'){
+        stage('Run Tests') {
+            steps {
+                script{
+                    def buildArg = '--target builder .'
+                    dockerImage = docker.build(dockerReg, buildArg)
+                    sh "docker run --rm ${dockerReg} npm run build:and:test"
+                    sh "npm cypress:report:createBundle"
+                    publishHTML(
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'cypress/reports/html',
+                        reportFiles: 'index.html',
+                        reportName: 'Cypress Test Report',
+                        reportTitles: ''
+                    )
+                }
+            }
+        }
+		stage('Build Final Docker Image'){
 			steps{
 				script{
                     dockerImage = docker.build(dockerReg)
 				}
 			}
 		}
-
 		stage('Deploy Docker Image'){
 			steps{
 				script{
