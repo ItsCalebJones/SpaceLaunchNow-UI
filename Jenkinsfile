@@ -57,11 +57,6 @@ pipeline{
         stage('Build and Test') {
             parallel {
                 stage('Run Cypress Tests') {
-                    agent {
-                        docker {
-                            image 'cypress/base:16.14.2'
-                        }
-                    }
                     steps {
                         script{
                             sh "npm ci"
@@ -99,7 +94,6 @@ pipeline{
                     }
                 }
                 stage('Build Docker Image'){
-                    agent any
                     steps{
                         script{
                             dockerImage = docker.build(dockerReg)
@@ -109,7 +103,6 @@ pipeline{
             }
         }
 		stage('Deploy Docker Image'){
-            agent any
 			steps{
 				script{
 					docker.withRegistry(registryURL, registryCredential){
@@ -125,7 +118,6 @@ pipeline{
 			}
 		}
 		stage('Deploy Helm Release'){
-            agent any
             when {
                 branch 'main'
             }
