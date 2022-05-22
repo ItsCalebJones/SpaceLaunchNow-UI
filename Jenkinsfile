@@ -32,7 +32,7 @@ def projectName() {
 }
 
 pipeline{
-	agent any
+	agent none
 
 	environment {
 		BRANCH = "${BRANCH_NAME}"
@@ -50,32 +50,60 @@ pipeline{
 	}
 
 	stages{
-        stage('Run Tests') {
-            steps {
-                script{
-                    sh "npm ci"
-                    sh "npm run ci:e2e"
-                    sh "npm run cypress:report:createBundle"
-                    publishHTML(
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll: true,
-                        reportDir: 'cypress/reports/html',
-                        reportFiles: 'index.html',
-                        reportName: 'Cypress Test Report',
-                        reportTitles: ''
-                    )
+        parallel{
+            stage('Run Tests') {
+                agent {
+                    docker {
+                        image 'cypress/base:10'
+                    }
+                }
+                steps {
+                    script{
+                        sh "npm ci"
+                        sh "npm run ci:e2e"
+                        sh "npm run cypress:report:createBundle"
+                    }
+                }
+                post {
+                    always {
+                        publishHTML(
+                            allowMissing: false,
+                            alwaysLinkToLastBuild: false,
+                            keepAll: true,
+                            reportDir: 'cypress/reports/html',
+                            reportFiles: 'index.html',
+                            reportName: 'Cypress Test Report',
+                            reportTitles: 'Space Launch Now - UI'
+                        )
+                        junit(
+                            testResults: 'cypress/results/junit/testresults-*.xml'
+                            )
+                        archiveArtifacts(
+                            artifacts: 'cypress/videos/**/*.mp4',
+                            fingerprint: true,
+                        )
+                        archiveArtifacts(
+                            artifacts: 'cypress/results/**/*.json',
+                            fingerprint: true,
+                        )
+                        archiveArtifacts(
+                            artifacts: 'cypress/results/**/*.xml',
+                            fingerprint: true,
+                        )
+                    }
+                }
+            }
+            stage('Build Final Docker Image'){
+                agent any
+                steps{
+                    script{
+                        dockerImage = docker.build(dockerReg)
+                    }
                 }
             }
         }
-		stage('Build Final Docker Image'){
-			steps{
-				script{
-                    dockerImage = docker.build(dockerReg)
-				}
-			}
-		}
 		stage('Deploy Docker Image'){
+            agent any
 			steps{
 				script{
 					docker.withRegistry(registryURL, registryCredential){
@@ -91,6 +119,7 @@ pipeline{
 			}
 		}
 		stage('Deploy Helm Release'){
+            agent any
             when {
                 branch 'main'
             }
