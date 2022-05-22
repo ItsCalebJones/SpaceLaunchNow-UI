@@ -77,10 +77,6 @@ pipeline{
                             )
                             junit(
                                 testResults: 'cypress/results/junit/testresults-*.xml'
-                                )
-                            archiveArtifacts(
-                                artifacts: 'cypress/videos/**/*.mp4',
-                                fingerprint: true,
                             )
                             archiveArtifacts(
                                 artifacts: 'cypress/results/**/*.json',
