@@ -58,7 +58,7 @@ pipeline{
             steps {
                 script{
                     sh "npm ci"
-                    sh "npm run test:ci"
+                    sh "npm run ci:e2e"
                     sh "npm run cypress:report:createBundle"
                     publishHTML(
                         allowMissing: false,
