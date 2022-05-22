@@ -32,7 +32,7 @@ def projectName() {
 }
 
 pipeline{
-	agent none
+	agent any
 
 	environment {
 		BRANCH = "${BRANCH_NAME}"
@@ -51,11 +51,11 @@ pipeline{
 
 	stages{
         stage('Build and Test') {
-            parallel{
+            parallel {
                 stage('Run Cypress Tests') {
                     agent {
                         docker {
-                            image 'cypress/base:10'
+                            image 'cypress/base:16.14.2'
                         }
                     }
                     steps {
