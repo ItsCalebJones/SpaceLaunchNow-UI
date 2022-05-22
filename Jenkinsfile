@@ -58,8 +58,8 @@ pipeline{
             steps {
                 script{
                     sh "npm ci"
-                    sh "npm run build:and:test"
-                    sh "npm cypress:report:createBundle"
+                    sh "npm run test:ci"
+                    sh "npm run cypress:report:createBundle"
                     publishHTML(
                         allowMissing: false,
                         alwaysLinkToLastBuild: false,

@@ -53,6 +53,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-silent": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -63,7 +64,7 @@
     "cypress:report:copyScreenshots": "([ -d cypress/screenshots ] && cp -r cypress/screenshots cypress/reports/html) || true",
     "cypress:report:createBundle": "run-s cypress:report:merge cypress:report:generate cypress:report:copyScreenshots",
     "cypress:report:clean": "rm -rf cypress/results cypress/screenshots cypress/reports",
-    "build:and:test": "npm run cypress:run",
+    "ci:e2e": "start-server-and-test start-silent http://localhost:3000 cypress:run",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start"
   },
   "browserslist": {
@@ -82,6 +83,7 @@
     "@commitlint/cli": "^16.2.4",
     "@commitlint/config-conventional": "^16.2.4",
     "mochawesome-merge": "^4.2.1",
-    "prettier": "2.3.2"
+    "prettier": "2.3.2",
+    "start-server-and-test": "^1.14.0"
   }
 }
