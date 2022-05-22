@@ -50,23 +50,15 @@ pipeline{
 	}
 
 	stages{
-        stage('Setup'){
-			steps {
-			    // Will probably need to grab some secrets at some point
-				script{
-				    sh 'echo "Hello world!"'
-				}
-			}
-		}
-        stage('Run Tests') {
-            steps {
-                script{
-                    def buildArg = '--target builder .'
-                    dockerImage = docker.build(dockerReg, buildArg)
-                    sh "docker run -e CI=true --rm ${dockerReg} npm test -- --coverage"
-                }
-            }
-        }
+        // stage('Run Tests') {
+        //     steps {
+        //         script{
+        //             def buildArg = '--target builder .'
+        //             dockerImage = docker.build(dockerReg, buildArg)
+        //             sh "docker run -e CI=true --rm ${dockerReg} npm test -- --coverage"
+        //         }
+        //     }
+        // }
 		stage('Build Docker Image'){
 			steps{
 				script{
