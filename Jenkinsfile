@@ -32,11 +32,7 @@ def projectName() {
 }
 
 pipeline{
-	agent {
-        docker {
-            image 'cypress/base:16.13.0'
-        }
-    }
+	agent any
 
 	environment {
 		BRANCH = "${BRANCH_NAME}"
