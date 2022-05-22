@@ -52,7 +52,7 @@ pipeline{
 	stages{
         stage('Build and Test') {
             parallel{
-                stage('Run Tests') {
+                stage('Run Cypress Tests') {
                     agent {
                         docker {
                             image 'cypress/base:10'
@@ -145,7 +145,6 @@ pipeline{
     }
     post {
         always {
-
             discordSend description: "**Status:** ${currentBuild.currentResult}\n**Branch: **${env.BRANCH_NAME}\n**Build: **${env.BUILD_NUMBER}\n\n${COMMIT_MESSAGE}",
                 footer: "",
                 link: env.BUILD_URL,
