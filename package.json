@@ -65,6 +65,8 @@
     "cypress:report:createBundle": "run-s cypress:report:merge cypress:report:generate cypress:report:copyScreenshots",
     "cypress:report:clean": "rm -rf cypress/results cypress/screenshots cypress/reports",
     "ci:e2e": "start-server-and-test start-silent http://localhost:3000 cypress:run",
+    "format": "prettier --loglevel warn --write \"*.{js,json,md,yml,yaml,graphql}\" \"{src,cypress,scripts}/**/*.{js,jsx,ts,tsx,json,css,md,yml,yaml,graphql}\" public/mockServiceWorker.js",
+    "format:check": "prettier --check \"*.{js,json,md,yml,yaml,graphql}\" \"{src,cypress,scripts}/**/*.{js,jsx,ts,tsx,json,css,md,yml,yaml,graphql}\"",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start"
   },
   "browserslist": {
