@@ -63,7 +63,7 @@
     "cypress:report:copyScreenshots": "([ -d cypress/screenshots ] && cp -r cypress/screenshots cypress/reports/html) || true",
     "cypress:report:createBundle": "run-s cypress:report:merge cypress:report:generate cypress:report:copyScreenshots",
     "cypress:report:clean": "rm -rf cypress/results cypress/screenshots cypress/reports",
-    "build:and:test": "npm run cy:run",
+    "build:and:test": "npm run cypress:run",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start"
   },
   "browserslist": {
