@@ -32,7 +32,11 @@ def projectName() {
 }
 
 pipeline{
-	agent any
+	agent {
+        docker {
+            image 'cypress/base:16'
+        }
+    }
 
 	environment {
 		BRANCH = "${BRANCH_NAME}"
@@ -53,9 +57,8 @@ pipeline{
         stage('Run Tests') {
             steps {
                 script{
-                    def buildArg = '--target builder .'
-                    dockerImage = docker.build(dockerReg, buildArg)
-                    sh "docker run --rm ${dockerReg} npm run build:and:test"
+                    sh "npm ci"
+                    sh "npm run build:and:test"
                     sh "npm cypress:report:createBundle"
                     publishHTML(
                         allowMissing: false,
