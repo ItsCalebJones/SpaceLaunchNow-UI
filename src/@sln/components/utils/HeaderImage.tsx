@@ -31,7 +31,7 @@ const useStyles = makeStyles()((theme: Theme) => ({
     backgroundPosition: "top",
     display: "grid",
     placeItems: "center",
-    minHeight: "65vh",
+    minHeight: "75vh",
     width: "100%",
   }
 }))
@@ -68,8 +68,8 @@ const HeaderIcon: FC<any> = (): ReactElement => {
           <Grid item>
 
             {/* TODO: Find a way to generalize this css style for future use. */}
-            <img src={launcher} height={300} width={300} style={{
-              marginTop: "30px",
+            <img src={launcher} height={250} width={250} style={{
+              marginTop: "50px",
               borderRadius: "50%",
               boxShadow: "0 16px 38px -12px rgb(0 0 0 / 56%), 0 4px 25px 0 rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(0 0 0 / 20%)"
             }} />

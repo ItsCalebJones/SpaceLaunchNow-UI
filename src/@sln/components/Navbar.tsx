@@ -10,14 +10,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import SendIcon from '@mui/icons-material/ArrowDropDown';
+import SendIcon from "@mui/icons-material/ArrowDropDown";
 import { MenuRoute, routes } from "@sln/routes";
-
+import { makeStyles } from "@sln/styles/"
 import { NavLink } from "react-router-dom";
-import { Link, useTheme } from "@mui/material";
+import { Link, ListItemIcon, ListItemText, Theme, useTheme } from "@mui/material";
 import HorizontalRule from "./utils/HorizontalRule";
+import { Shop, Apple } from "@mui/icons-material";
 
-const ResponsiveAppBar = ({ transparent}) => {
+const ResponsiveAppBar = ({ transparent }) => {
   const theme = useTheme();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -40,15 +41,19 @@ const ResponsiveAppBar = ({ transparent}) => {
     setAnchorElLaunches(null);
   };
 
-
   return (
-    <AppBar position="static"
+    <AppBar
+      position="static"
+      elevation={transparent ? 0 : 1}
       style={{
-      backgroundColor: transparent ? "transparent" : theme.palette.primary.main,
-      boxShadow: transparent
-        ? "5px 0px 27px -5px rgba(0, 0, 0, 0.3) !important"
-        : undefined
-    }}>
+        backgroundColor: transparent
+          ? "transparent"
+          : theme.palette.primary.main,
+        boxShadow: transparent
+          ? "5px 0px 27px -5px rgba(0, 0, 0, 0.3) !important"
+          : undefined,
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Expanded Title */}
@@ -58,7 +63,7 @@ const ResponsiveAppBar = ({ transparent}) => {
             component="a"
             href="/"
             sx={{
-              mr: 2,
+              mr: 5,
               display: { xs: "none", md: "flex" },
               fontWeight: 700,
               color: "inherit",
@@ -134,7 +139,14 @@ const ResponsiveAppBar = ({ transparent}) => {
           </Typography>
 
           {/* Expanded Menu */}
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              justifyContent: "flex-end",
+              alignItems: "center",
+              flexGrow: 1,
+              display: { xs: "none", md: "flex", mr: 10 },
+            }}
+          >
             {routes.map((route) => (
               <NavbarButton
                 menuRoute={route}
@@ -144,6 +156,12 @@ const ResponsiveAppBar = ({ transparent}) => {
                 anchorElLaunches={anchorElLaunches}
               />
             ))}
+            <Button startIcon={<Shop fontSize="small" htmlColor="white"/>}>
+              <SLNTypography kind="buttonText">Android</SLNTypography>
+            </Button>
+            <Button startIcon={<Apple fontSize="small" htmlColor="white" />}>
+              <SLNTypography kind="buttonText">Apple</SLNTypography>
+            </Button>
           </Box>
         </Toolbar>
       </Container>
@@ -151,9 +169,17 @@ const ResponsiveAppBar = ({ transparent}) => {
   );
 };
 
+const useStyles = makeStyles()((theme: Theme) => ({
+  button: {
+    "&.active": {
+      background:'rgba(255,255,255,0.1)',
+    },
+  }
+}))
+
 ResponsiveAppBar.defaultProps = {
   transparent: false,
-}
+};
 
 interface NavbarButtonProps {
   menuRoute: MenuRoute;
@@ -168,9 +194,9 @@ const NavbarButton: React.FC<NavbarButtonProps> = ({
   handleCloseNavMenu,
   handleOpenLaunchMenu,
   handleCloseLaunchMenu,
-  anchorElLaunches
-
+  anchorElLaunches,
 }) => {
+  const { classes } = useStyles()
   if (menuRoute.submenu) {
     return (
       <div>
@@ -178,14 +204,13 @@ const NavbarButton: React.FC<NavbarButtonProps> = ({
           endIcon={<SendIcon />}
           onClick={handleOpenLaunchMenu}
           sx={{ my: 2, color: "white" }}
-
         >
           <SLNTypography kind="buttonText">{menuRoute.title}</SLNTypography>
         </Button>
         <Menu
           sx={{
             mt: "45px",
-            transformOrigin: "0 0"
+            transformOrigin: "0 0",
           }}
           id="menu-appbar"
           anchorEl={anchorElLaunches}
@@ -201,41 +226,40 @@ const NavbarButton: React.FC<NavbarButtonProps> = ({
           open={Boolean(anchorElLaunches)}
           onClose={handleCloseLaunchMenu}
         >
-          {menuRoute.submenu.map((subroute) => (
+          {menuRoute.submenu.map((subroute) =>
             // If key is null then we use it as a spacer
-            subroute.key
-              ? <MenuItem key={subroute.key} onClick={handleCloseLaunchMenu}>
+            subroute.key ? (
+              <MenuItem key={subroute.key} onClick={handleCloseLaunchMenu}>
                 <Link
-                    key={subroute.key}
-                    component={NavLink}
-                    to={subroute.path}
-                    underline="none"
-                    variant="button"
-                  >
-                  <SLNTypography kind="subButtonText">{subroute.title}</SLNTypography>
+                  key={subroute.key}
+                  component={NavLink}
+                  to={subroute.path}
+                  underline="none"
+                  variant="button"
+                >
+                  <SLNTypography kind="subButtonText">
+                    {subroute.title}
+                  </SLNTypography>
                 </Link>
               </MenuItem>
-            : <HorizontalRule/>
-          ))}
+            ) : (
+              <HorizontalRule />
+            )
+          )}
         </Menu>
       </div>
     );
   } else {
     return (
-      <Link
-        key={menuRoute.key}
-        component={NavLink}
-        to={menuRoute.path}
-        underline="none"
-        variant="button"
-      >
         <Button
+          className={classes.button}
+          key={menuRoute.key}
+          component={NavLink}
+          to={menuRoute.path}
           onClick={handleCloseNavMenu}
-          sx={{ my: 2, color: "white"}}
-        >
+          sx={{ my: 2, color: "white" }}>
           <SLNTypography kind="buttonText">{menuRoute.title}</SLNTypography>
         </Button>
-      </Link>
     );
   }
 };
