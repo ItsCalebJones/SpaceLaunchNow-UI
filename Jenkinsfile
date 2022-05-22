@@ -34,10 +34,6 @@ def projectName() {
 pipeline{
 	agent any
 
-    options {
-        ansiColor('xterm')
-    }
-
 	environment {
 		BRANCH = "${BRANCH_NAME}"
 		registry="registry.digitalocean.com/spacelaunchnow-registry/sln-ui"
@@ -52,6 +48,10 @@ pipeline{
         COMMIT_MESSAGE = commitMessage()
         PROJECT_NAME = projectName()
 	}
+
+    options {
+        ansiColor('xterm')
+    }
 
 	stages{
         stage('Build and Test') {
