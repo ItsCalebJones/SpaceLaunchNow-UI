@@ -50,8 +50,8 @@ pipeline{
 	}
 
 	stages{
-        parallel{
-            stage('Build and Test') {
+        stage('Build and Test') {
+            parallel{
                 stage('Run Tests') {
                     agent {
                         docker {
