@@ -34,7 +34,7 @@ def projectName() {
 pipeline{
 	agent {
         docker {
-            image 'cypress/base:16'
+            image 'cypress/base:16.13.0'
         }
     }
 
