@@ -49,24 +49,55 @@ pipeline{
         PROJECT_NAME = projectName()
 	}
 
-	stages{
-        // stage('Run Tests') {
-        //     steps {
-        //         script{
-        //             def buildArg = '--target builder .'
-        //             dockerImage = docker.build(dockerReg, buildArg)
-        //             sh "docker run -e CI=true --rm ${dockerReg} npm test -- --coverage"
-        //         }
-        //     }
-        // }
-		stage('Build Docker Image'){
-			steps{
-				script{
-                    dockerImage = docker.build(dockerReg)
-				}
-			}
-		}
+    options {
+        ansiColor('xterm')
+    }
 
+	stages{
+        stage('Build and Test') {
+            parallel {
+                stage('Run Cypress Tests') {
+                    steps {
+                        script{
+                            sh "npm ci"
+                            sh "npm run ci:e2e"
+                            sh "npm run cypress:report:createBundle"
+                        }
+                    }
+                    post {
+                        always {
+                            publishHTML(
+                                allowMissing: false,
+                                alwaysLinkToLastBuild: false,
+                                keepAll: true,
+                                reportDir: 'cypress/reports/html',
+                                reportFiles: 'index.html',
+                                reportName: 'Cypress Test Report',
+                                reportTitles: 'Space Launch Now - UI'
+                            )
+                            junit(
+                                testResults: 'cypress/results/junit/testresults-*.xml'
+                            )
+                            archiveArtifacts(
+                                artifacts: 'cypress/results/**/*.json',
+                                fingerprint: true,
+                            )
+                            archiveArtifacts(
+                                artifacts: 'cypress/results/**/*.xml',
+                                fingerprint: true,
+                            )
+                        }
+                    }
+                }
+                stage('Build Docker Image'){
+                    steps{
+                        script{
+                            dockerImage = docker.build(dockerReg)
+                        }
+                    }
+                }
+            }
+        }
 		stage('Deploy Docker Image'){
 			steps{
 				script{
@@ -106,7 +137,6 @@ pipeline{
     }
     post {
         always {
-
             discordSend description: "**Status:** ${currentBuild.currentResult}\n**Branch: **${env.BRANCH_NAME}\n**Build: **${env.BUILD_NUMBER}\n\n${COMMIT_MESSAGE}",
                 footer: "",
                 link: env.BUILD_URL,
