@@ -30,21 +30,43 @@ const useStyles = makeStyles()((theme: Theme) => ({
     textTransform: "none",
   },
     
-  // titles
-  boldTitle: {
+  boldTitleWhite: {
     fontSize: '5rem',
     fontWeight: 700,
     lineHeight: 1.2,
     color: theme.palette.common.white,
-  
   },
-  // subtitles
-  subTitle: {
+
+  subTitleWhite: {
     fontSize: '3rem',
     fontWeight: 200,
     lineHeight: 1.2,
     color: theme.palette.common.white,
+  }, 
+
+  sectionTitleWhite: {
+    fontSize: '2.25rem',
+    fontWeight: 700,
+    lineHeight: 1.2,
+    color: theme.palette.common.white,
   },
+
+  // titles
+  sectionTitle: {
+    fontSize: '2.25rem',
+    fontWeight: 700,
+    lineHeight: 1.2,
+    color: theme.palette.text.primary,
+  },
+
+  boldTitle: {
+    fontSize: '5rem',
+    fontWeight: 700,
+    lineHeight: 1.2,
+    color: theme.palette.text.primary,
+  },
+
+
 }))
 
 type Kind = keyof ReturnType<typeof useStyles>['classes']
