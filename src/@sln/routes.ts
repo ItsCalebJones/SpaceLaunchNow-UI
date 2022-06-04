@@ -4,11 +4,11 @@ import Apple from '@mui/icons-material/Apple';
 
 // interface
 export type MenuRoute = {
-    key: string,
-    title: string,
-    path: string,
+    key?: string,
+    title?: string,
+    path?: string,
     icon?: any,
-    enabled: boolean,
+    enabled?: boolean,
     submenu?: Array<MenuRoute>,
 }
 
@@ -38,9 +38,6 @@ export const routes: Array<MenuRoute> = [
                 enabled: true,
             }, 
             {
-                key: null,
-                title: null,
-                path: null,
                 enabled: true,
             }, 
             {
@@ -62,9 +59,6 @@ export const routes: Array<MenuRoute> = [
                 enabled: true,
             }, 
             {
-                key: null,
-                title: null,
-                path: null,
                 enabled: true,
             }, 
             {
