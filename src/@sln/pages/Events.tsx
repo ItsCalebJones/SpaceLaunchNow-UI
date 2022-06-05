@@ -4,24 +4,35 @@ import Base from "@sln/components/BaseLayout";
 import { Card } from "@mui/material";
 import { Divider } from "@mui/material";
 import { SLNTypography } from "@sln/components/SLNTypography";
-import { Grid } from "@mui/material";
+import {Stack, Grid, } from "@mui/material";
 const Events: FC<any> = (): ReactElement => {
     return (
         <Base>
            <Container>
-           <Grid
-                container
+           <Stack
                 spacing={0}
                 direction="column"
                 alignItems="center"
                 style={{ minHeight: '100vh' }}
                 mt={25}
             >
-                <Grid item xs={3}>
-                <Typography variant="h3">Upcoming Events</Typography>
-                </Grid>   
-            </Grid> 
+                <SLNTypography kind="sectionTitle">Upcoming Events</SLNTypography>
+                {/* Figure out styling for divider */}
+                <Box
+                    sx={{
+                        width: 450,
+                        mt:2
+                    }}
+                >
+                    <Divider 
+                        orientation="horizontal" 
+                        color="gray" 
+                        flexItem>
+                    </Divider>   
+                </Box>
+            </Stack> 
            </Container>
+        
         </Base>
     );
 };
