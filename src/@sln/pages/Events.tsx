@@ -1,10 +1,15 @@
 import React, {ReactElement, FC} from "react";
-import {Box, Container, Typography} from "@mui/material";
+import {Box, 
+        Container, 
+        Typography, 
+        Card, Divider, 
+        Stack, 
+        CardMedia,
+        CardContent} 
+    from "@mui/material";
 import Base from "@sln/components/BaseLayout";
-import { Card } from "@mui/material";
-import { Divider } from "@mui/material";
 import { SLNTypography } from "@sln/components/SLNTypography";
-import {Stack, Grid, } from "@mui/material";
+
 const Events: FC<any> = (): ReactElement => {
     return (
         <Base>
@@ -31,8 +36,30 @@ const Events: FC<any> = (): ReactElement => {
                     </Divider>   
                 </Box>
             </Stack> 
+            <Stack>
+                <Card sx={{ display: 'flex' }}>
+                    <Box>
+                    <CardMedia
+                    component="img"
+                    sx={{height: 250}}
+                    src=
+                    "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/event_images/2021_nasa_astro_image_20211202132624.jpeg"
+                    >
+                    </CardMedia>
+                    </Box>
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <CardContent sx={{ flex: '1 0 auto' }}>
+                        <Typography component="div" variant="h6">
+                            PRESS EVENT
+                        </Typography>
+                        <Typography variant="h6" color="text.secondary" component="div">
+                            JUN 12, 2022
+                        </Typography>
+                    </CardContent>
+                    </Box>
+                </Card>
+            </Stack>
            </Container>
-        
         </Base>
     );
 };
