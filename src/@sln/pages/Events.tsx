@@ -5,7 +5,8 @@ import {Box,
         Card, Divider, 
         Stack, 
         CardMedia,
-        CardContent} 
+        CardContent,
+        Grid} 
     from "@mui/material";
 import Base from "@sln/components/BaseLayout";
 import { SLNTypography } from "@sln/components/SLNTypography";
@@ -46,17 +47,43 @@ const Events: FC<any> = (): ReactElement => {
                         >
                         </CardMedia>
                     </Card>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Box>
                         <CardContent>
-                            <Stack direction="row" spacing={1}>
-                                <SLNTypography kind='eventCategory'>
-                                    Press Event
-                                </SLNTypography>
-                                <SLNTypography kind='eventDate'>
-                                    JUN 12, 2022, NOON
-                                </SLNTypography>
-                            </Stack>
-                    </CardContent>
+                            {/* <Stack direction="column">
+                                <Stack direction="row" spacing={1}>
+                                    <SLNTypography kind='eventCategory'>
+                                        Press Event
+                                    </SLNTypography>
+                                    <SLNTypography kind='eventDate'>
+                                        JUN 12, 2022, NOON
+                                    </SLNTypography>
+                                </Stack>
+                                <Stack>
+                                    <SLNTypography kind='eventDate'>
+                                        JUN 12, 2022, NOON
+                                    </SLNTypography>
+                                </Stack>
+                            </Stack> */}
+                            <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
+                                <Grid item xs="auto">
+                                    <SLNTypography kind='eventCategory'>
+                                        Press Event
+                                    </SLNTypography>
+                                </Grid>
+                                <Grid item xs="auto">
+                                    <SLNTypography kind='eventDate'>
+                                        JUN 12, 2022, NOON
+                                    </SLNTypography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <SLNTypography kind='eventTitle'>
+                                    2021 NASA Astronaut Candidates Announcement
+                                        </SLNTypography>
+                                    </Grid>
+                                <Grid item xs={12}>
+                                </Grid>
+                            </Grid>
+                        </CardContent>
                     </Box>
             </Stack>
            </Container>

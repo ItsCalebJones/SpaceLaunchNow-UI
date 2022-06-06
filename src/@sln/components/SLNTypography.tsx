@@ -78,8 +78,14 @@ const useStyles = makeStyles()((theme: Theme) => ({
     fontWeight: 500,
     lineHeight: 0,
     color: '#999',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
+  eventTitle: {
+    fontSize: '1.5625rem',
+    fontWeight: 700,
+    lineHeight: 0,
+    color: '#3c4858',
+  }
 
 
 }))
