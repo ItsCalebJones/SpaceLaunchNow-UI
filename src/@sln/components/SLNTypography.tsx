@@ -65,6 +65,21 @@ const useStyles = makeStyles()((theme: Theme) => ({
     lineHeight: 1.2,
     color: theme.palette.text.primary,
   },
+  // event card fonts 
+  eventCategory: {
+    fontSize: '.75rem',
+    fontWeight: 500,
+    lineHeight: 0,
+    color: '#00bcd4!important',
+    textTransform: 'uppercase',
+  },
+  eventDate: {
+    fontSize: '.75rem',
+    fontWeight: 500,
+    lineHeight: 0,
+    color: '#999',
+    textTransform: 'uppercase'
+  },
 
 
 }))

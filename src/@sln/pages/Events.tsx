@@ -47,14 +47,14 @@ const Events: FC<any> = (): ReactElement => {
                         </CardMedia>
                     </Card>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                        <CardContent sx={{ flex: '1 0 auto' }}>
+                        <CardContent>
                             <Stack direction="row" spacing={1}>
-                                <Typography component="div" variant="h6">
-                                    PRESS EVENT
-                                </Typography>
-                                <Typography variant="h6" color="text.secondary" component="div">
-                                    JUN 12, 2022
-                                </Typography>
+                                <SLNTypography kind='eventCategory'>
+                                    Press Event
+                                </SLNTypography>
+                                <SLNTypography kind='eventDate'>
+                                    JUN 12, 2022, NOON
+                                </SLNTypography>
                             </Stack>
                     </CardContent>
                     </Box>
