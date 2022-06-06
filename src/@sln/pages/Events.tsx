@@ -36,7 +36,7 @@ const Events: FC<any> = (): ReactElement => {
                     </Divider>   
                 </Box>
             </Stack> 
-            <Stack direction = "row" spacing={2}>
+            <Stack direction="row" spacing={2}>
                     <Card raised>
                         <CardMedia
                         component="img"
@@ -48,12 +48,14 @@ const Events: FC<any> = (): ReactElement => {
                     </Card>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <CardContent sx={{ flex: '1 0 auto' }}>
-                            <Typography component="div" variant="h6">
-                                PRESS EVENT
-                            </Typography>
-                            <Typography variant="h6" color="text.secondary" component="div">
-                                JUN 12, 2022
-                            </Typography>
+                            <Stack direction="row" spacing={1}>
+                                <Typography component="div" variant="h6">
+                                    PRESS EVENT
+                                </Typography>
+                                <Typography variant="h6" color="text.secondary" component="div">
+                                    JUN 12, 2022
+                                </Typography>
+                            </Stack>
                     </CardContent>
                     </Box>
             </Stack>
