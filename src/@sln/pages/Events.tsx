@@ -6,10 +6,17 @@ import {Box,
         Stack, 
         CardMedia,
         CardContent,
-        Grid} 
+        Grid,
+        Chip,
+        createTheme,
+        Button
+    } 
     from "@mui/material";
 import Base from "@sln/components/BaseLayout";
 import { SLNTypography } from "@sln/components/SLNTypography";
+
+
+
 
 const Events: FC<any> = (): ReactElement => {
     return (
@@ -49,21 +56,6 @@ const Events: FC<any> = (): ReactElement => {
                     </Card>
                     <Box>
                         <CardContent>
-                            {/* <Stack direction="column">
-                                <Stack direction="row" spacing={1}>
-                                    <SLNTypography kind='eventCategory'>
-                                        Press Event
-                                    </SLNTypography>
-                                    <SLNTypography kind='eventDate'>
-                                        JUN 12, 2022, NOON
-                                    </SLNTypography>
-                                </Stack>
-                                <Stack>
-                                    <SLNTypography kind='eventDate'>
-                                        JUN 12, 2022, NOON
-                                    </SLNTypography>
-                                </Stack>
-                            </Stack> */}
                             <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
                                 <Grid item xs="auto">
                                     <SLNTypography kind='eventCategory'>
@@ -81,6 +73,15 @@ const Events: FC<any> = (): ReactElement => {
                                         </SLNTypography>
                                     </Grid>
                                 <Grid item xs={12}>
+                                    <Chip label= "Ellington Field Joint Reserve Base"/>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Typography variant="body2">
+                                    Text about event goes here
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button>Explore</Button>
                                 </Grid>
                             </Grid>
                         </CardContent>
