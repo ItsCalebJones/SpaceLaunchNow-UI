@@ -103,18 +103,21 @@ export const getThemeOptions = ({ prefersDarkMode }: themeOptions) =>
           },
         },
       },
-     
-        // Button
-        MuiButton: {
-          styleOverrides: {
-            // Name of the slot
-            root: {
-              borderRadius: '30px',
-              fontSize: '.75rem',
-              color: 'white',
-            },
-          },
-        },
+      
+
+        // Potentially used for overriding button style, but trying to create SLNButton 
+        // // Button
+        // MuiButton: {
+        //   styleOverrides: {
+        //     // Name of the slot
+        //     root: {
+        //       borderRadius: '30px',
+        //       fontSize: '.75rem',
+        //       color: 'white',
+  
+        //     },
+        //   },
+        // },
     },
 
     // src/@sln/material/util/createPalette.d.ts
