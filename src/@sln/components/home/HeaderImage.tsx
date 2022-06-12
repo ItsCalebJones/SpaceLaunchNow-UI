@@ -8,14 +8,6 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@sln/styles/";
 import { SLNTypography } from "@sln/components/SLNTypography";
-import {
-  Configuration,
-  PaginatedLaunchSerializerCommonList,
-  LaunchApi,
-  BASE_PATH,
-  LaunchSerializerCommon,
-} from "@sln/services/api";
-
 import bgImage from "@sln/assets/images/header_starship.jpg";
 import launcher from "@sln/assets/images/launcher_full.png";
 
@@ -53,19 +45,6 @@ const useStyles = makeStyles()((theme: Theme) => ({
 
 const HeaderIcon: FC<any> = (): ReactElement => {
   const { classes } = useStyles();
-  const configuration = new Configuration({
-    basePath: BASE_PATH,
-  });
-
-  const launchApi = new LaunchApi(configuration);
-
-  const [launches, setLaunches] =
-    useState<PaginatedLaunchSerializerCommonList | null>(null);
-
-  const onClick = async () => {
-    const loadedPosts = await launchApi.launchUpcomingList();
-    setLaunches(loadedPosts);
-  };
 
   return (
     <Box data-test="header-image-bg" className={classes.header}>

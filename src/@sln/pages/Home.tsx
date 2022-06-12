@@ -14,9 +14,9 @@ import HeaderImage from "@sln/components/home/HeaderImage";
 import Navbar from "@sln/components/Navbar";
 import { SLNTypography } from "@sln/components/SLNTypography";
 import LaunchList from "@sln/components/sidebar/LaunchList";
-import HorizontalRule from "@sln/components/utils/HorizontalRule";
 import SLNCountdown from "@sln/components/utils/SLNCountdown";
-import { BASE_PATH, Configuration, LaunchApi, PaginatedLaunchSerializerCommonList } from "@sln/services/api";
+import { LaunchDetailed } from "@sln/service/model";
+import { useLaunchUpcomingList } from "@sln/service/api/launch/launch";
 
 const useStyles = makeStyles()((theme: Theme) => ({
   mainBody: {
@@ -93,22 +93,7 @@ const Home: FC<any> = (): ReactElement => {
     backgroundPosition: "center center",
   };
 
-
-  const configuration = new Configuration({
-    basePath: BASE_PATH,
-  });
-
-  const launchApi = new LaunchApi(configuration);
-
-  const [launches, setLaunches] =
-    useState<PaginatedLaunchSerializerCommonList | null>(null);
-
-  const onClick = async () => {
-    const loadedPosts = await launchApi.launchUpcomingList();
-    setLaunches(loadedPosts);
-  };
-  
-  const countDownDate = Date.now() + 5000000;
+  const { data: launches, isLoading } = useLaunchUpcomingList({limit: 2});
 
   // TODO figure out how to stack these properly
   return (
@@ -147,34 +132,38 @@ const Home: FC<any> = (): ReactElement => {
                   Next Upcoming Launch
                 </SLNTypography>
                 <Divider />
-                <Card
-                  sx={{
-                    width: "85%",
-                    minHeight: 500,
-                    backgroundImage: `${urlBgImage}`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center center",
-                  }}
-                >
-                  <CardActionArea>
-                    <CardContent>
-                      <Stack
-                        direction="column"
-                        justifyContent="center"
-                        alignItems="center"
-                        mt={5}
-                      >
-                        <SLNTypography kind="sectionTitleWhite">
-                          Falcon 9 Block 6 | Transporter 5
-                        </SLNTypography>
-                        <SLNCountdown date={countDownDate}/>
-                        <SLNTypography kind="sectionTitleWhite">
-                          May 25th, 2022 - 2:27 PM EDT
-                        </SLNTypography>
-                      </Stack>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
+
+                {launches?.data.results.map((launch: LaunchDetailed) => (
+                  <Card
+                    key={launch.id}
+                    sx={{
+                      width: "85%",
+                      minHeight: 500,
+                      backgroundImage: `url(${launch.image})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center center",
+                      margin: 5,
+                    }}>
+                      <CardActionArea>
+                      <CardContent>
+                        <Stack
+                          direction="column"
+                          justifyContent="center"
+                          alignItems="center"
+                          mt={5}
+                        >
+                          <SLNTypography kind="sectionTitleWhite">
+                            {launch.name}
+                          </SLNTypography>
+                          <SLNCountdown date={launch.net}/>
+                          <SLNTypography kind="sectionTitleWhite">
+                            {launch.net}
+                          </SLNTypography>
+                        </Stack>
+                      </CardContent>
+                    </CardActionArea>
+                    </Card>
+                  ))}
               </Stack>
             </Grid>
             <Grid
