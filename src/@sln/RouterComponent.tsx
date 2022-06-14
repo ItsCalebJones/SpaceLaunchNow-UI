@@ -5,7 +5,7 @@ import { routes as appRoutes } from "@sln/routes";
 import Home from "@sln/pages/Home";
 import About from "@sln/pages/About";
 import Starship from "@sln/pages/Starship"
-import Events from './pages/Events';
+import Events from './pages/EventsListPage';
 const RouterComponent = () => {
   return (
     <div>

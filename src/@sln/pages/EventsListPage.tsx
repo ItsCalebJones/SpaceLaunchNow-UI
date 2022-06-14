@@ -14,11 +14,20 @@ import {Box,
     from "@mui/material";
 import Base from "@sln/components/BaseLayout";
 import { SLNTypography } from "@sln/components/SLNTypography";
+import { useEventList } from "@sln/service/api/event/event";
+import { Events } from "@sln/service/model";
+import { data } from "cypress/types/jquery";
+import { width } from "@mui/system";
 
 
 
 
-const Events: FC<any> = (): ReactElement => {
+const EventsListPage: FC<any> = (): ReactElement => {
+
+    const {data: events, isLoading} = useEventList({limit: 5});
+
+
+
     return (
         <Base>
            <Container>
@@ -26,7 +35,7 @@ const Events: FC<any> = (): ReactElement => {
                 spacing={0}
                 direction="column"
                 alignItems="center"
-                style={{ minHeight: '100vh' }}
+                style={{ minHeight: '15vh' }}
                 mt={25}
             >
                 <SLNTypography kind="sectionTitle">Upcoming Events</SLNTypography>
@@ -44,7 +53,59 @@ const Events: FC<any> = (): ReactElement => {
                     </Divider>   
                 </Box>
             </Stack> 
-            <Stack direction="row" spacing={2}>
+
+
+
+            {events?.data.results.map((event: Events) => (
+                <Stack direction="row" spacing={5} mt={5}>
+                    <Card raised sx={{height:"250px",
+                                        width:"368.88px"}}
+                    >
+                        <CardMedia
+                        component="img"
+                        sx={{height:'100%',
+                            width:"100%"}}
+                        src= {event.feature_image}
+                        >
+                        </CardMedia>
+                    </Card>
+                    <Box>
+                        <CardContent>
+                            <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
+                                <Grid item xs="auto">
+                                    <SLNTypography kind='eventCategory'>
+                                        {event.type.name}
+                                    </SLNTypography>
+                                </Grid>
+                                <Grid item xs="auto">
+                                    <SLNTypography kind='eventDate'>
+                                        {event.date}
+                                    </SLNTypography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <SLNTypography kind='eventTitle'>
+                                        {event.name}
+                                        </SLNTypography>
+                                </Grid>  
+                                <Grid item xs={12}>
+                                    <Chip label={event.location}/>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Typography variant="body2">
+                                    Text about event goes here
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button>Explore</Button>
+                                </Grid>
+                            </Grid>
+                        </CardContent>   
+                    </Box>
+                </Stack>
+                  
+                  ))}
+
+            {/* <Stack direction="row" spacing={2}>
                     <Card raised>
                         <CardMedia
                         component="img"
@@ -86,10 +147,10 @@ const Events: FC<any> = (): ReactElement => {
                             </Grid>
                         </CardContent>
                     </Box>
-            </Stack>
+            </Stack> */}
            </Container>
         </Base>
     );
 };
 
-export default Events;
+export default EventsListPage;
