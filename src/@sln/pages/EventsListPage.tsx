@@ -25,9 +25,6 @@ import { width } from "@mui/system";
 const EventsListPage: FC<any> = (): ReactElement => {
 
     const {data: events, isLoading} = useEventList({limit: 50});
-    events?.data.results.map((event: Events) => (
-        console.log(event.expeditions)
-    ))
     return (
         <Base>
            <Container>
