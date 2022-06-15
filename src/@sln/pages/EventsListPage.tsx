@@ -24,7 +24,10 @@ import { width } from "@mui/system";
 
 const EventsListPage: FC<any> = (): ReactElement => {
 
-    const {data: events, isLoading} = useEventList({limit: 5});
+    const {data: events, isLoading} = useEventList({limit: 50});
+    events?.data.results.map((event: Events) => (
+        console.log(event.expeditions)
+    ))
     return (
         <Base>
            <Container>
@@ -51,7 +54,7 @@ const EventsListPage: FC<any> = (): ReactElement => {
                 </Box>
             </Stack> 
             {events?.data.results.map((event: Events) => (
-                <Stack direction="row" spacing={5} mt={5}>
+                <Stack direction="row" spacing={1.5} mt={5}>
                     <Card raised sx={{height:"250px",
                                         width:"368.88px"}}
                         >
@@ -78,10 +81,27 @@ const EventsListPage: FC<any> = (): ReactElement => {
                             <SLNTypography kind='eventTitle'>
                                 {event.name}
                             </SLNTypography>
-                        </Grid>  
-                        <Grid item xs={12}>
-                            <Chip label={event.location}/>
                         </Grid>
+                        {event.location && 
+                        <Grid item xs='auto'>
+                            <Chip color ='primary' label={event.location}/>
+                        </Grid>
+                        }
+                        {event.spacestations[0] && 
+                        <Grid item xs='auto'>
+                            <Chip color ='info' label={event.spacestations[0]?.name}/>
+                        </Grid>
+                        }
+                        {event.launches[0] && 
+                        <Grid item xs='auto'>
+                            <Chip color ='warning' label={event.launches[0]?.name}/>
+                        </Grid>
+                        }
+                        {event.expeditions[0] && 
+                        <Grid item xs='auto'>
+                            <Chip color ='info' label={event.expeditions[0]?.name}/>
+                        </Grid>
+                        }       
                         <Grid item xs={12}>
                             <Typography variant="body2">
                                 {event.description}
@@ -92,7 +112,7 @@ const EventsListPage: FC<any> = (): ReactElement => {
                         </Grid>
                     </Grid>
                 </Stack>           
-                  ))}
+            ))}
            </Container>
         </Base>
     );
