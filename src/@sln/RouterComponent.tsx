@@ -5,7 +5,7 @@ import { routes as appRoutes } from "@sln/routes";
 import Home from "@sln/pages/Home";
 import About from "@sln/pages/About";
 import Starship from "@sln/pages/Starship"
-
+import Events from './pages/EventsListPage';
 const RouterComponent = () => {
   return (
     <div>
@@ -18,6 +18,7 @@ const RouterComponent = () => {
             <Route index={true} element={<LaunchListIndex />}/>
             <Route path=":launchid" element={<Launch />} />
           </Route>
+          <Route path="/events" element= {<Events/>}/>
         </Route>
       </Routes>
 
