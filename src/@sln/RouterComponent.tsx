@@ -6,6 +6,7 @@ import Home from "@sln/pages/Home";
 import About from "@sln/pages/About";
 import Starship from "@sln/pages/Starship"
 import Events from './pages/EventsListPage';
+import NotFoundPage from "@sln/pages/NotFoundPage"
 const RouterComponent = () => {
   return (
     <div>
@@ -19,6 +20,7 @@ const RouterComponent = () => {
             <Route path=":launchid" element={<Launch />} />
           </Route>
           <Route path="/events" element= {<Events/>}/>
+          <Route path="/*" element= {<NotFoundPage/>}/>
         </Route>
       </Routes>
 

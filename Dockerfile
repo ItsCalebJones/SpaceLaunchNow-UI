@@ -13,7 +13,13 @@ FROM base AS builder
 COPY . ./
 RUN npm run build
 
+# now have initial build for react application
+
+# create config to tell nginx where to look for files
+
 FROM nginx:stable-alpine AS production
 COPY --from=builder /app/build /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/conf.d
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
