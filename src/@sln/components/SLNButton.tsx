@@ -1,6 +1,8 @@
 import {Theme, Typography, Button} from '@mui/material'
 import {ButtonProps} from '@mui/material/Button'
+import shadows from '@mui/material/styles/shadows'
 import { makeStyles } from '@sln/styles'
+import boxShadow from '@sln/styles/functions/boxShadow'
 import React from 'react'
 
 // TODO build out different button styles
@@ -8,8 +10,13 @@ const useStyles = makeStyles()((theme: Theme) => ({
   evtbtn: {
     fontSize: ".75rem",
     backgroundColor: theme.palette.primary.main,
-    borderRadius: 30
-
+    borderRadius: 30,
+    padding: 12.5,
+    // todo: figure out how to add boxshadow 
+    // '&:hover': {
+    //   backgroundColor: theme.palette.primary.main,
+    
+    // }
   }
   
   
