@@ -18,6 +18,8 @@ import { useEventList } from "@sln/service/api/event/event";
 import { Events } from "@sln/service/model";
 import { data } from "cypress/types/jquery";
 import { width } from "@mui/system";
+import { SLNButton } from "@sln/components/SLNButton";
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 
 
@@ -123,7 +125,12 @@ const EventsListPage: FC<any> = (): ReactElement => {
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <Button>Explore</Button>
+                            {/* <Button>Explore</Button> */}
+                            <SLNButton startIcon={<CalendarTodayIcon fontSize="small" htmlColor="white"/>} kind="evtbtn">
+                                <SLNTypography kind="buttonText">
+                                    View Event
+                                </SLNTypography>
+                            </SLNButton>
                         </Grid>
                     </Grid>
                 </Stack>           
