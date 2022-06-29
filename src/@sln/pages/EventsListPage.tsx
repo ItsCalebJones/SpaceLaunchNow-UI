@@ -101,22 +101,22 @@ const EventsListPage: FC<any> = (): ReactElement => {
                         </Grid>
                         {event.location && 
                         <Grid item xs='auto'>
-                            <Chip color ='primary' label={event.location}/>
+                            <Chip sx={{height:'20px'}} color='primary' label={event.location}/>
                         </Grid>
                         }
                         {event.spacestations[0] && 
                         <Grid item xs='auto'>
-                            <Chip color ='info' label={event.spacestations[0]?.name}/>
+                            <Chip sx={{height:'20px'}} color='info' label={event.spacestations[0]?.name}/>
                         </Grid>
                         }
                         {event.launches[0] && 
                         <Grid item xs='auto'>
-                            <Chip color ='warning' label={event.launches[0]?.name}/>
+                            <Chip sx={{height:'20px'}} color='warning' label={event.launches[0]?.name}/>
                         </Grid>
                         }
                         {event.expeditions[0] && 
                         <Grid item xs='auto'>
-                            <Chip color ='info' label={event.expeditions[0]?.name}/>
+                            <Chip sx={{height:'20px'}} color='info' label={event.expeditions[0]?.name}/>
                         </Grid>
                         }       
                         <Grid item xs={12}>
