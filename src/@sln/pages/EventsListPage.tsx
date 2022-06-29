@@ -83,7 +83,7 @@ const EventsListPage: FC<any> = (): ReactElement => {
                         >
                         </CardMedia>
                     </Card>
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
+                    <Grid container rowSpacing={0.2} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
                         <Grid item xs="auto">
                             <SLNTypography kind='eventCategory'>
                                 {event.type.name}
