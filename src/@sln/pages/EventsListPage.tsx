@@ -17,7 +17,7 @@ import { SLNTypography } from "@sln/components/SLNTypography";
 import { useEventList } from "@sln/service/api/event/event";
 import { Events } from "@sln/service/model";
 import { data } from "cypress/types/jquery";
-import { width } from "@mui/system";
+import { textAlign, width } from "@mui/system";
 import { SLNButton } from "@sln/components/SLNButton";
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import SkeletonElement from "@sln/skeletons/SkeletonElement";
@@ -27,7 +27,7 @@ import { date_builder } from "@sln/components/utils/FunctionUtils";
 
 
 const EventsListPage: FC<any> = (): ReactElement => {
-    const {data: events, isLoading} = useEventList({limit: 10});
+    const {data: events, isLoading} = useEventList({limit: 20});
     return (
         <Base>
            <Container>
@@ -121,7 +121,11 @@ const EventsListPage: FC<any> = (): ReactElement => {
                 </Stack>           
             ))}
 
-            {isLoading && <div>Loading...</div>}
+            {isLoading && <div style={{
+                        alignItems:'center',
+                        justifyContent:'center',
+                        textAlign:'center'
+            }}><h1>Loading...</h1></div>}
 
 
            </Container>
