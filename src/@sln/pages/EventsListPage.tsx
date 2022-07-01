@@ -20,6 +20,7 @@ import { data } from "cypress/types/jquery";
 import { width } from "@mui/system";
 import { SLNButton } from "@sln/components/SLNButton";
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import SkeletonElement from "@sln/skeletons/SkeletonElement";
 
 
 
@@ -44,7 +45,7 @@ const EventsListPage: FC<any> = (): ReactElement => {
         return date_string
     }
 
-    const {data: events, isLoading} = useEventList({limit: 50});
+    const {data: events, isLoading} = useEventList({limit: 100});
     return (
         <Base>
            <Container>
@@ -70,7 +71,9 @@ const EventsListPage: FC<any> = (): ReactElement => {
                     </Divider>   
                 </Box>
             </Stack> 
-            {events?.data.results.map((event: Events) => (
+
+            
+            {!isLoading && events?.data.results.map((event: Events) => (
                 <Stack direction="row" spacing={1.5} mt={5}>
                     <Card raised sx={{height:"250px",
                                         width:"368.88px"}}
@@ -135,6 +138,10 @@ const EventsListPage: FC<any> = (): ReactElement => {
                     </Grid>
                 </Stack>           
             ))}
+
+            {isLoading && <div>Loading...</div>}
+
+
            </Container>
         </Base>
     );
