@@ -27,7 +27,8 @@ import { date_builder } from "@sln/components/utils/FunctionUtils";
 
 
 const EventsListPage: FC<any> = (): ReactElement => {
-    const {data: events, isLoading} = useEventList({limit: 20});
+    const limit = 100
+    const {data: events, isLoading} = useEventList({limit});
     return (
         <Base>
            <Container>
@@ -121,12 +122,15 @@ const EventsListPage: FC<any> = (): ReactElement => {
                 </Stack>           
             ))}
 
-            {isLoading && <div style={{
+            {/* {isLoading && <div style={{
                         alignItems:'center',
                         justifyContent:'center',
                         textAlign:'center'
-            }}><h1>Loading...</h1></div>}
+            }}><h1>Loading...</h1></div>} */}
 
+            {isLoading &&
+                <SkeletonElement limit={limit}/> 
+            }   
 
            </Container>
         </Base>
