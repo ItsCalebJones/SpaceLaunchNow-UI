@@ -17,34 +17,17 @@ import { SLNTypography } from "@sln/components/SLNTypography";
 import { useEventList } from "@sln/service/api/event/event";
 import { Events } from "@sln/service/model";
 import { data } from "cypress/types/jquery";
-import { width } from "@mui/system";
+import { textAlign, width } from "@mui/system";
 import { SLNButton } from "@sln/components/SLNButton";
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import SkeletonElement from "@sln/skeletons/SkeletonElement";
+import { date_builder } from "@sln/components/utils/FunctionUtils";
 
 
 
 
 const EventsListPage: FC<any> = (): ReactElement => {
-
-    const date_builder = function (s:string) : string{
-
-        // getting all of the date things :)
-        const date = new Date(s)
-        const month = date.toLocaleString('default', { month: 'long' });
-        const day = date.getDate()
-        const year = date.getFullYear()
-        const str_time = date.toLocaleString('en-US', {
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true
-        })
-
-        // building date string from date things and returning date string
-        const date_string = `${month} ${day}, ${year}, ${str_time}`
-        return date_string
-    }
-
-    const {data: events, isLoading} = useEventList({limit: 50});
+    const {data: events, isLoading} = useEventList({limit: 20});
     return (
         <Base>
            <Container>
@@ -70,7 +53,9 @@ const EventsListPage: FC<any> = (): ReactElement => {
                     </Divider>   
                 </Box>
             </Stack> 
-            {events?.data.results.map((event: Events) => (
+
+            
+            {!isLoading && events?.data.results.map((event: Events) => (
                 <Stack direction="row" spacing={1.5} mt={5}>
                     <Card raised sx={{height:"250px",
                                         width:"368.88px"}}
@@ -135,6 +120,14 @@ const EventsListPage: FC<any> = (): ReactElement => {
                     </Grid>
                 </Stack>           
             ))}
+
+            {isLoading && <div style={{
+                        alignItems:'center',
+                        justifyContent:'center',
+                        textAlign:'center'
+            }}><h1>Loading...</h1></div>}
+
+
            </Container>
         </Base>
     );

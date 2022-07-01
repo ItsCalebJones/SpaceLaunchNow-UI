@@ -17,7 +17,7 @@ import LaunchList from "@sln/components/sidebar/LaunchList";
 import SLNCountdown from "@sln/components/utils/SLNCountdown";
 import { LaunchDetailed } from "@sln/service/model";
 import { useLaunchUpcomingList } from "@sln/service/api/launch/launch";
-
+import { date_builder } from "@sln/components/utils/FunctionUtils";
 const useStyles = makeStyles()((theme: Theme) => ({
   mainBody: {
     position: "absolute",
@@ -157,7 +157,7 @@ const Home: FC<any> = (): ReactElement => {
                           </SLNTypography>
                           <SLNCountdown date={launch.net}/>
                           <SLNTypography kind="sectionTitleWhite">
-                            {launch.net}
+                            {date_builder(launch.net)}
                           </SLNTypography>
                         </Stack>
                       </CardContent>
