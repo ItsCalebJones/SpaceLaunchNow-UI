@@ -18,7 +18,7 @@ import SLNCountdown from "@sln/components/utils/SLNCountdown";
 import { LaunchDetailed } from "@sln/service/model";
 import { useLaunchUpcomingList } from "@sln/service/api/launch/launch";
 import { HorizontalRule } from "@mui/icons-material";
-import date_builder from "@sln/components/utils/dateUtil";
+import { date_builder } from "@sln/components/utils/FunctionUtils";
 
 const useStyles = makeStyles()((theme: Theme) => ({
   mainBody: {
@@ -182,6 +182,7 @@ const Home: FC<any> = (): ReactElement => {
                             </SLNTypography>
                             <HorizontalRule/>
                           </Stack>
+
                       </CardContent>
                     </Card>
                   ))}
