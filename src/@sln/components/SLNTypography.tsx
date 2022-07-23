@@ -11,8 +11,6 @@ const useStyles = makeStyles()((theme: Theme) => ({
     lineHeight: 1.43,
     color: theme.palette.text.primary,
     fontFamily: theme.typography.fontFamily,
-    margin: 0,
-    padding: 0,
   },
   
   buttonText: {
@@ -36,7 +34,6 @@ const useStyles = makeStyles()((theme: Theme) => ({
     lineHeight: 1.2,
     color: theme.palette.common.white,
   },
-
   subTitleWhite: {
     fontSize: '3rem',
     fontWeight: 200,
@@ -47,7 +44,13 @@ const useStyles = makeStyles()((theme: Theme) => ({
   sectionTitleWhite: {
     fontSize: '2.25rem',
     fontWeight: 700,
-    lineHeight: 1.2,
+    lineHeight: 1.5,
+    color: theme.palette.common.white,
+  },
+  sectionSubTitleWhite: {
+    fontSize: '1.5rem',
+    fontWeight: 300,
+    lineHeight: 1.4,
     color: theme.palette.common.white,
   },
 
@@ -58,6 +61,12 @@ const useStyles = makeStyles()((theme: Theme) => ({
     lineHeight: 1.2,
     color: theme.palette.text.primary,
   },
+  sectionSubTitl: {
+    fontSize: '1.5rem',
+    fontWeight: 300,
+    lineHeight: 1.4,
+    color: theme.palette.text.primary,
+  },
 
   boldTitle: {
     fontSize: '5rem',
@@ -65,6 +74,7 @@ const useStyles = makeStyles()((theme: Theme) => ({
     lineHeight: 1.2,
     color: theme.palette.text.primary,
   },
+
   // event card fonts 
   eventCategory: {
     fontSize: '.75rem',

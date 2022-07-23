@@ -17,6 +17,8 @@ import LaunchList from "@sln/components/sidebar/LaunchList";
 import SLNCountdown from "@sln/components/utils/SLNCountdown";
 import { LaunchDetailed } from "@sln/service/model";
 import { useLaunchUpcomingList } from "@sln/service/api/launch/launch";
+import { HorizontalRule } from "@mui/icons-material";
+import date_builder from "@sln/components/utils/dateUtil";
 
 const useStyles = makeStyles()((theme: Theme) => ({
   mainBody: {
@@ -93,7 +95,7 @@ const Home: FC<any> = (): ReactElement => {
     backgroundPosition: "center center",
   };
 
-  const { data: launches, isLoading } = useLaunchUpcomingList({limit: 2});
+  const { data: launches, isLoading } = useLaunchUpcomingList({limit: 1, hide_recent_previous: true});
 
   // TODO figure out how to stack these properly
   return (
@@ -131,37 +133,56 @@ const Home: FC<any> = (): ReactElement => {
                 <SLNTypography kind="sectionTitle">
                   Next Upcoming Launch
                 </SLNTypography>
-                <Divider />
+                <Divider variant="middle"/>
 
                 {launches?.data.results.map((launch: LaunchDetailed) => (
                   <Card
                     key={launch.id}
                     sx={{
-                      width: "85%",
+                      width: "80%",
+                      position: 'relative',
                       minHeight: 500,
                       backgroundImage: `url(${launch.image})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center center",
                       margin: 5,
+                      ':after': {
+                        position: 'absolute',
+                        zIndex: 1,
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: "rgba(19, 19, 19, 0.44)",
+                        content: '""',
+                        top: 0,
+                        left: 0
+                      }
                     }}>
-                      <CardActionArea>
-                      <CardContent>
-                        <Stack
-                          direction="column"
-                          justifyContent="center"
-                          alignItems="center"
-                          mt={5}
-                        >
-                          <SLNTypography kind="sectionTitleWhite">
-                            {launch.name}
-                          </SLNTypography>
-                          <SLNCountdown date={launch.net}/>
-                          <SLNTypography kind="sectionTitleWhite">
-                            {launch.net}
-                          </SLNTypography>
-                        </Stack>
+                      <CardContent
+                      sx={{
+                          position: 'relative',
+                          zIndex: 2
+                        }}>
+                          <Stack
+                            direction="column"
+                            justifyContent="center"
+                            alignItems="center"
+                            mt={5}
+                          >
+                            <SLNTypography kind="sectionTitleWhite"
+                              sx={{
+                                marginTop: "10px",
+                                marginBottom: "12px",
+                              }}
+                            >
+                              {launch.name}
+                            </SLNTypography>
+                            <SLNCountdown date={launch.net} />
+                            <SLNTypography kind="sectionSubTitleWhite">
+                              {date_builder(launch.net)}
+                            </SLNTypography>
+                            <HorizontalRule/>
+                          </Stack>
                       </CardContent>
-                    </CardActionArea>
                     </Card>
                   ))}
               </Stack>

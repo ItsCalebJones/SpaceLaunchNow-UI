@@ -23,7 +23,7 @@ const defaultLightBackground = "#F5F5F5";
 const grayForDark = "#CFCFCF";
 const grayForLight = "#595959";
 
-const fontFamily = ["Roboto Slab", "Helvetica Neue", "Arial", "sans-serif"].join(
+const fontFamily = ["Roboto", "Helvetica Neue", "Arial", "sans-serif"].join(
   ","
 );
 
