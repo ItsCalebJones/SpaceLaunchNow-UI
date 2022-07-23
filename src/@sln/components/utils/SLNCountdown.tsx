@@ -11,11 +11,20 @@ class SLNCountdown extends React.Component<SLNCountdownProps> {
   renderer = ({ formatted: { days, hours, minutes, seconds }, completed }) => {
     if (completed) {
       // Render a completed state
-      return <SLNTypography kind="sectionTitleWhite">L - --:--:--:--</SLNTypography>;
+      return <SLNTypography
+                sx={{
+                  marginTop: "5px",
+                  marginBottom: "5px",
+                }}
+                kind="sectionTitleWhite">L - 00 : 00 : 00 : 00</SLNTypography>;
     } else {
       // Render a countdown
       return (
-          <SLNTypography kind="sectionTitleWhite">L - {days}:{hours}:{minutes}:{seconds}</SLNTypography>
+        <SLNTypography
+          sx={{
+            marginTop: "5px",
+            marginBottom: "5px",
+          }} kind="sectionTitleWhite">L - {days} : {hours} : {minutes} : {seconds}</SLNTypography>
       );
     }
   };
