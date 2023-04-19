@@ -12,6 +12,34 @@ const useStyles = makeStyles()((theme: Theme) => ({
     color: theme.palette.text.primary,
     fontFamily: theme.typography.fontFamily,
   },
+
+  standardTitle: {
+    fontSize: '.75rem',
+    textTransform: "uppercase",
+    fontWeight: 500,
+    lineHeight: 1.5,
+    color: theme.palette.text.primary,
+    fontFamily: theme.typography.fontFamily,
+  },
+
+  textTitleWhite: {
+    fontSize: '.75rem',
+    textTransform: "uppercase",
+    fontWeight: 500,
+    lineHeight: 1.5,
+    color: "rgba(255,255,255,0.7) !important",
+    fontFamily: "Roboto"
+  },
+
+  textWhite: {
+    fontSize: '14px',
+    fontWeight: 300,
+    lineHeight: 1.5,
+    color: "rgba(255,255,255,0.7) !important",
+    fontFamily: "Roboto",
+    marginTop: "10px",
+    marginBottom: "10px"
+  },
   
   buttonText: {
     color: "white",
@@ -29,14 +57,14 @@ const useStyles = makeStyles()((theme: Theme) => ({
   },
     
   boldTitleWhite: {
-    fontSize: '5rem',
+    fontSize: '3.125rem',
     fontWeight: 700,
     lineHeight: 1.2,
     color: theme.palette.common.white,
   },
   subTitleWhite: {
-    fontSize: '3rem',
-    fontWeight: 200,
+    fontSize: '2.25rem',
+    fontWeight: 300,
     lineHeight: 1.2,
     color: theme.palette.common.white,
   }, 

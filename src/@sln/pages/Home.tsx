@@ -19,6 +19,7 @@ import { LaunchDetailed } from "@sln/service/model";
 import { useLaunchUpcomingList } from "@sln/service/api/launch/launch";
 import { HorizontalRule } from "@mui/icons-material";
 import { date_builder } from "@sln/components/utils/FunctionUtils";
+import { margin } from "@mui/system";
 
 const useStyles = makeStyles()((theme: Theme) => ({
   mainBody: {
@@ -119,9 +120,9 @@ const Home: FC<any> = (): ReactElement => {
           <Grid container>
             <Grid
               item
-              xs={10}
-              sm={10}
-              md={8}
+              xs={12}
+              sm={12}
+              md={9}
               justifyContent="center"
               alignItems="center"
             >
@@ -130,10 +131,20 @@ const Home: FC<any> = (): ReactElement => {
                 justifyContent="center"
                 alignItems="center"
               >
-                <SLNTypography kind="sectionTitle">
-                  Next Upcoming Launch
-                </SLNTypography>
-                <Divider variant="middle"/>
+                <Grid container xs={10} spacing={2}>
+                  <Grid item xs={12} textAlign="center">
+                    <SLNTypography kind="sectionTitle">
+                      Next Upcoming Launch
+                    </SLNTypography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Divider 
+                    variant="fullWidth" 
+                    sx={{
+                      borderTop: "1px solid rgba(0,0,0,0.1)"
+                    }}/>
+                  </Grid>
+                </Grid>
 
                 {launches?.data.results.map((launch: LaunchDetailed) => (
                   <Card
@@ -164,13 +175,15 @@ const Home: FC<any> = (): ReactElement => {
                         }}>
                           <Stack
                             direction="column"
-                            justifyContent="center"
-                            alignItems="center"
                             mt={5}
+                            maxWidth="500px"
+                            textAlign="center"
+                            margin="0 auto"
                           >
                             <SLNTypography kind="sectionTitleWhite"
                               sx={{
-                                marginTop: "10px",
+
+                                marginTop: "20px",
                                 marginBottom: "12px",
                               }}
                             >
@@ -180,9 +193,21 @@ const Home: FC<any> = (): ReactElement => {
                             <SLNTypography kind="sectionSubTitleWhite">
                               {date_builder(launch.net)}
                             </SLNTypography>
-                            <HorizontalRule/>
+                            <Divider 
+                              variant="fullWidth"
+                              sx={{
+                                borderTop: "1px solid rgba(0,0,0,0.1)",
+                                marginTop: "1rem",
+                                marginBottom: "1rem"
+                              }}
+                            />
+                            <SLNTypography kind="textTitleWhite">
+                              {launch.mission.type}
+                            </SLNTypography>
+                            <SLNTypography kind="textWhite">
+                              {launch.mission.description}
+                            </SLNTypography>
                           </Stack>
-
                       </CardContent>
                     </Card>
                   ))}
