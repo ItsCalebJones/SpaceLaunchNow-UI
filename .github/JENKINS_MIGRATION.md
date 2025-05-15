@@ -2,6 +2,19 @@
 
 This document outlines the process of migrating from Jenkins to GitHub Actions for the SpaceLaunchNow-UI project.
 
+## Latest Update (May 15, 2025)
+
+All GitHub Actions workflows have been updated to use the latest versions of actions:
+- `actions/checkout@v4`
+- `actions/setup-node@v4`
+- `actions/upload-artifact@v4`
+- `docker/build-push-action@v5`
+- `docker/setup-buildx-action@v3`
+- `azure/setup-kubectl@v4`
+- `azure/setup-helm@v4`
+- `sarisia/actions-status-discord@v1.13.0`
+- `EnricoMi/publish-unit-test-result-action@v2.12.0`
+
 ## Overview of Changes
 
 The original Jenkins pipeline has been replaced with the following GitHub Actions workflows:
@@ -59,6 +72,7 @@ The following secrets need to be configured in the GitHub repository settings:
    - Go to Repository → Settings → Secrets and variables → Actions → New repository secret
 3. Remove the Jenkinsfile after GitHub Actions workflows are confirmed working
 4. Update any documentation references to CI/CD from Jenkins to GitHub Actions
+5. Ensure all GitHub Actions are using the latest versions (already done as of May 15, 2025)
 
 ## GitHub Actions vs Jenkins
 
