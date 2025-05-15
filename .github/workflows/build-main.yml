@@ -143,7 +143,7 @@ jobs:
           
       - name: Deploy to K8s
         run: |
-          kubectl config use-context do-nyc1-k8s-spacelaunchnow-dev
+          kubectl config use-context do-nyc1-k8s-spacelaunchnow-prod
           export DEPLOYS=$(helm ls --all-namespaces | grep $RELEASE_NAME | wc -l)
           if [ $DEPLOYS -eq 0 ]; then
             helm install $RELEASE_NAME k8s/helm/ --namespace=$DEPLOYMENT_NAMESPACE --values $VALUES
