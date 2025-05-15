@@ -8,6 +8,12 @@ on:
     branches:
       - '**'
       - '!main'
+      
+# Add permissions needed for check runs
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
 
 jobs:
   test:
@@ -28,7 +34,7 @@ jobs:
         run: npm ci
         
       - name: Setup Cypress cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/Cypress
           key: cypress-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
@@ -52,6 +58,9 @@ jobs:
         if: always()
         with:
           files: cypress/results/junit/testresults-*.xml
+          check_name: "Cypress Test Results"
+          comment_mode: off
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Upload Test Artifacts
         uses: actions/upload-artifact@v4

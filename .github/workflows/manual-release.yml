@@ -11,6 +11,11 @@ on:
         options:
           - production
           - staging
+          
+# Add permissions needed for check runs
+permissions:
+  contents: read
+  checks: write
 
 env:
   IMAGE_NAME: sln-ui
