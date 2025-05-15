@@ -1,0 +1,94 @@
+name: Manual UI Production Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+
+env:
+  IMAGE_NAME: sln-ui
+  REGISTRY_NAME: registry.digitalocean.com/spacelaunchnow-registry/
+  
+jobs:
+  deploy:
+    name: Deploy UI Release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          
+      - name: Login to container registry
+        run: doctl registry login --expiry-seconds 600
+      
+      - name: Set environment variables
+        run: |
+          if [ "${{ github.event.inputs.environment }}" = "production" ]; then
+            echo "RELEASE_NAME=sln-prod-ui" >> $GITHUB_ENV
+            echo "DEPLOYMENT_NAMESPACE=sln-prod" >> $GITHUB_ENV
+            echo "VALUES=k8s/helm/values.yaml" >> $GITHUB_ENV
+            echo "TAG=production" >> $GITHUB_ENV
+          else
+            echo "RELEASE_NAME=sln-staging-ui" >> $GITHUB_ENV
+            echo "DEPLOYMENT_NAMESPACE=sln-dev" >> $GITHUB_ENV
+            echo "VALUES=k8s/helm/values-staging.yaml" >> $GITHUB_ENV
+            echo "TAG=staging" >> $GITHUB_ENV
+          fi
+      
+      - name: Create tag if production
+        if: github.event.inputs.environment == 'production'
+        run: |
+          docker pull ${{env.REGISTRY_NAME}}${{ env.IMAGE_NAME }}:production
+          docker tag ${{env.REGISTRY_NAME}}${{ env.IMAGE_NAME }}:production ${{env.REGISTRY_NAME}}${{ env.IMAGE_NAME }}:latest
+          docker push ${{env.REGISTRY_NAME}}${{ env.IMAGE_NAME }}:latest
+          
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.24.0'
+          
+      - name: Install helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 'v3.8.1'
+          
+      - name: Create kubeconfig
+        run: |
+          mkdir ${HOME}/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ${HOME}/.kube/config
+          chmod go-r ${HOME}/.kube/config
+          
+      - name: Deploy to K8s
+        run: |
+          kubectl config use-context do-nyc1-k8s-spacelaunchnow-dev
+          export DEPLOYS=$(helm ls --all-namespaces | grep $RELEASE_NAME | wc -l)
+          if [ $DEPLOYS -eq 0 ]; then
+            helm install $RELEASE_NAME k8s/helm/ --namespace=$DEPLOYMENT_NAMESPACE --values $VALUES
+          else
+            helm upgrade $RELEASE_NAME k8s/helm/ --namespace=$DEPLOYMENT_NAMESPACE --values $VALUES --recreate-pods
+          fi
+      
+      - name: Send Discord Notification
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: "SpaceLaunchNow-UI Release"
+          description: |
+            **Status:** ${{ job.status }}
+            **Environment:** ${{ github.event.inputs.environment }}
+            **Build:** ${{ github.run_number }}
+          color: ${{ job.status == 'success' && '0x28A745' || '0xDC3545' }}
+          username: GitHub Actions
+          avatar_url: https://i.imgur.com/FASV6fJ.png

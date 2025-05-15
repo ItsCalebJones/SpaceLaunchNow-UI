@@ -1,0 +1,143 @@
+name: Build UI Main Branch
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+    tags:
+      - '**'
+
+env:
+  IMAGE_NAME: sln-ui
+  REGISTRY_NAME: registry.digitalocean.com/spacelaunchnow-registry/
+  RELEASE_NAME: sln-prod-ui
+  DEPLOYMENT_NAMESPACE: sln-prod
+  VALUES: k8s/helm/values.yaml
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run Cypress tests
+        run: npm run ci:e2e
+        
+      - name: Generate Cypress report
+        run: npm run cypress:report:createBundle
+        
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: cypress/results/junit/testresults-*.xml
+          
+      - name: Upload Test Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: |
+            cypress/results/**/*.json
+            cypress/results/**/*.xml
+            
+      - name: Upload HTML Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-html-report
+          path: cypress/reports/html
+
+  doctl-registry:
+    needs: test
+    name: Deploy to Container Registry
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          
+      - name: Login to container registry
+        run: doctl registry login --expiry-seconds 600
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{env.REGISTRY_NAME}}${{ env.IMAGE_NAME }}
+          tags: |
+            type=schedule
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}, ${{env.REGISTRY_NAME}}${{ env.IMAGE_NAME }}:production
+          labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: doctl-registry
+    name: Deploy to Kubernetes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.24.0'
+          
+      - name: Install helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 'v3.8.1'
+          
+      - name: Create kubeconfig
+        run: |
+          mkdir ${HOME}/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ${HOME}/.kube/config
+          chmod go-r ${HOME}/.kube/config
+          
+      - name: Deploy to K8s
+        run: |
+          kubectl config use-context do-nyc1-k8s-spacelaunchnow-dev
+          export DEPLOYS=$(helm ls --all-namespaces | grep $RELEASE_NAME | wc -l)
+          if [ $DEPLOYS -eq 0 ]; then
+            helm install $RELEASE_NAME k8s/helm/ --namespace=$DEPLOYMENT_NAMESPACE --values $VALUES
+          else
+            helm upgrade $RELEASE_NAME k8s/helm/ --namespace=$DEPLOYMENT_NAMESPACE --values $VALUES --recreate-pods
+          fi
+      
+      - name: Send Discord Notification
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: "SpaceLaunchNow-UI"
+          description: |
+            **Status:** ${{ job.status }}
+            **Branch:** ${{ github.ref_name }}
+            **Build:** ${{ github.run_number }}
+          color: ${{ job.status == 'success' && '0x28A745' || '0xDC3545' }}
+          username: GitHub Actions
+          avatar_url: https://i.imgur.com/FASV6fJ.png
