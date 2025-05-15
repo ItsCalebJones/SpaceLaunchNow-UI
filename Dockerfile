@@ -11,6 +11,8 @@ RUN npm install react-scripts@5.0.1 -g --silent
 
 FROM base AS builder
 COPY . ./
+# Update browserslist database before building
+RUN npx browserslist@latest --update-db
 RUN npm run build
 
 # now have initial build for react application

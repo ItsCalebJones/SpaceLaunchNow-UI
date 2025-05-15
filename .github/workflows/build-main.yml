@@ -39,6 +39,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
         
+      - name: Update browserslist database
+        run: npx browserslist@latest --update-db
+        
       - name: Setup Cypress cache
         uses: actions/cache@v4
         with:
@@ -148,7 +151,9 @@ jobs:
           if [ $DEPLOYS -eq 0 ]; then
             helm install $RELEASE_NAME k8s/helm/ --namespace=$DEPLOYMENT_NAMESPACE --values $VALUES
           else
-            helm upgrade $RELEASE_NAME k8s/helm/ --namespace=$DEPLOYMENT_NAMESPACE --values $VALUES --recreate-pods
+            helm upgrade $RELEASE_NAME k8s/helm/ --namespace=$DEPLOYMENT_NAMESPACE --values $VALUES
+            # Restart the pods (replacing deprecated --recreate-pods flag)
+            kubectl rollout restart deployment/$RELEASE_NAME-web -n $DEPLOYMENT_NAMESPACE
           fi
       
       - name: Send Discord Notification
