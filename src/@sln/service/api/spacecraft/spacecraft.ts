@@ -11,27 +11,22 @@ Please use https://lldev.thespacedevs.com for development testing - the developm
 If you are interested in a higher rate limit please consider supporting the project on Patreon for access to an API Key.
  * OpenAPI spec version: v2.2.0
  */
-import axios,{
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError
-} from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import {
   useQuery,
   UseQueryOptions,
   QueryFunction,
   UseQueryResult,
-  QueryKey
-} from 'react-query'
+  QueryKey,
+} from "react-query";
 import type {
   PaginatedSpacecraftList,
   SpacecraftListParams,
   SpacecraftDetailed,
   PaginatedSpacecraftFlightList,
   SpacecraftFlightListParams,
-  SpacecraftFlightDetailed
-} from '../../model'
-
+  SpacecraftFlightDetailed,
+} from "../../model";
 
 /**
  * API endpoint that allows Spacecrafts to be viewed.
@@ -52,42 +47,58 @@ Fields - 'id'
 Example - /2.2.0/spacecraft/?order=id
  */
 export const spacecraftList = (
-    params?: SpacecraftListParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PaginatedSpacecraftList>> => {
-    return axios.get(
-      `/2.2.0/spacecraft/`,{
-        params,
-    ...options}
-    );
+  params?: SpacecraftListParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<PaginatedSpacecraftList>> => {
+  return axios.get(`/2.2.0/spacecraft/`, {
+    params,
+    ...options,
+  });
+};
+
+export const getSpacecraftListQueryKey = (params?: SpacecraftListParams) => [
+  `/2.2.0/spacecraft/`,
+  ...(params ? [params] : []),
+];
+
+export type SpacecraftListQueryResult = NonNullable<
+  Awaited<ReturnType<typeof spacecraftList>>
+>;
+export type SpacecraftListQueryError = AxiosError<unknown>;
+
+export const useSpacecraftList = <
+  TData = Awaited<ReturnType<typeof spacecraftList>>,
+  TError = AxiosError<unknown>
+>(
+  params?: SpacecraftListParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof spacecraftList>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getSpacecraftListQueryKey = (params?: SpacecraftListParams,) => [`/2.2.0/spacecraft/`, ...(params ? [params]: [])];
-
-    
-export type SpacecraftListQueryResult = NonNullable<Awaited<ReturnType<typeof spacecraftList>>>
-export type SpacecraftListQueryError = AxiosError<unknown>
-
-export const useSpacecraftList = <TData = Awaited<ReturnType<typeof spacecraftList>>, TError = AxiosError<unknown>>(
- params?: SpacecraftListParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof spacecraftList>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getSpacecraftListQueryKey(params);
 
-  
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof spacecraftList>>> = ({
+    signal,
+  }) => spacecraftList(params, { signal, ...axiosOptions });
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof spacecraftList>>> = ({ signal }) => spacecraftList(params, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof spacecraftList>>, TError, TData>(queryKey, queryFn, queryOptions)
+  const query = useQuery<
+    Awaited<ReturnType<typeof spacecraftList>>,
+    TError,
+    TData
+  >(queryKey, queryFn, queryOptions);
 
   return {
     queryKey,
-    ...query
-  }
-}
+    ...query,
+  };
+};
 
 /**
  * API endpoint that allows Spacecrafts to be viewed.
@@ -108,40 +119,53 @@ Fields - 'id'
 Example - /2.2.0/spacecraft/?order=id
  */
 export const spacecraftRetrieve = (
-    id: number, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<SpacecraftDetailed>> => {
-    return axios.get(
-      `/2.2.0/spacecraft/${id}/`,options
-    );
+  id: number,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<SpacecraftDetailed>> => {
+  return axios.get(`/2.2.0/spacecraft/${id}/`, options);
+};
+
+export const getSpacecraftRetrieveQueryKey = (id: number) => [
+  `/2.2.0/spacecraft/${id}/`,
+];
+
+export type SpacecraftRetrieveQueryResult = NonNullable<
+  Awaited<ReturnType<typeof spacecraftRetrieve>>
+>;
+export type SpacecraftRetrieveQueryError = AxiosError<unknown>;
+
+export const useSpacecraftRetrieve = <
+  TData = Awaited<ReturnType<typeof spacecraftRetrieve>>,
+  TError = AxiosError<unknown>
+>(
+  id: number,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof spacecraftRetrieve>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getSpacecraftRetrieveQueryKey = (id: number,) => [`/2.2.0/spacecraft/${id}/`];
-
-    
-export type SpacecraftRetrieveQueryResult = NonNullable<Awaited<ReturnType<typeof spacecraftRetrieve>>>
-export type SpacecraftRetrieveQueryError = AxiosError<unknown>
-
-export const useSpacecraftRetrieve = <TData = Awaited<ReturnType<typeof spacecraftRetrieve>>, TError = AxiosError<unknown>>(
- id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof spacecraftRetrieve>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getSpacecraftRetrieveQueryKey(id);
 
-  
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof spacecraftRetrieve>>> =
+    ({ signal }) => spacecraftRetrieve(id, { signal, ...axiosOptions });
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof spacecraftRetrieve>>> = ({ signal }) => spacecraftRetrieve(id, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof spacecraftRetrieve>>, TError, TData>(queryKey, queryFn, {enabled: !!(id), ...queryOptions})
+  const query = useQuery<
+    Awaited<ReturnType<typeof spacecraftRetrieve>>,
+    TError,
+    TData
+  >(queryKey, queryFn, { enabled: !!id, ...queryOptions });
 
   return {
     queryKey,
-    ...query
-  }
-}
+    ...query,
+  };
+};
 
 /**
  * API endpoint that allows a flight of a specific Spacecraft instances to be viewed.
@@ -154,42 +178,58 @@ Parameters - 'spacecraft'
 Example - /api/2.2.0/launcher/?spacecraft=37
  */
 export const spacecraftFlightList = (
-    params?: SpacecraftFlightListParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PaginatedSpacecraftFlightList>> => {
-    return axios.get(
-      `/2.2.0/spacecraft/flight/`,{
-        params,
-    ...options}
-    );
+  params?: SpacecraftFlightListParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<PaginatedSpacecraftFlightList>> => {
+  return axios.get(`/2.2.0/spacecraft/flight/`, {
+    params,
+    ...options,
+  });
+};
+
+export const getSpacecraftFlightListQueryKey = (
+  params?: SpacecraftFlightListParams
+) => [`/2.2.0/spacecraft/flight/`, ...(params ? [params] : [])];
+
+export type SpacecraftFlightListQueryResult = NonNullable<
+  Awaited<ReturnType<typeof spacecraftFlightList>>
+>;
+export type SpacecraftFlightListQueryError = AxiosError<unknown>;
+
+export const useSpacecraftFlightList = <
+  TData = Awaited<ReturnType<typeof spacecraftFlightList>>,
+  TError = AxiosError<unknown>
+>(
+  params?: SpacecraftFlightListParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof spacecraftFlightList>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
+  const queryKey =
+    queryOptions?.queryKey ?? getSpacecraftFlightListQueryKey(params);
 
-export const getSpacecraftFlightListQueryKey = (params?: SpacecraftFlightListParams,) => [`/2.2.0/spacecraft/flight/`, ...(params ? [params]: [])];
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof spacecraftFlightList>>
+  > = ({ signal }) => spacecraftFlightList(params, { signal, ...axiosOptions });
 
-    
-export type SpacecraftFlightListQueryResult = NonNullable<Awaited<ReturnType<typeof spacecraftFlightList>>>
-export type SpacecraftFlightListQueryError = AxiosError<unknown>
-
-export const useSpacecraftFlightList = <TData = Awaited<ReturnType<typeof spacecraftFlightList>>, TError = AxiosError<unknown>>(
- params?: SpacecraftFlightListParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof spacecraftFlightList>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getSpacecraftFlightListQueryKey(params);
-
-  
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof spacecraftFlightList>>> = ({ signal }) => spacecraftFlightList(params, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof spacecraftFlightList>>, TError, TData>(queryKey, queryFn, queryOptions)
+  const query = useQuery<
+    Awaited<ReturnType<typeof spacecraftFlightList>>,
+    TError,
+    TData
+  >(queryKey, queryFn, queryOptions);
 
   return {
     queryKey,
-    ...query
-  }
-}
+    ...query,
+  };
+};
 
 /**
  * API endpoint that allows a flight of a specific Spacecraft instances to be viewed.
@@ -202,38 +242,52 @@ Parameters - 'spacecraft'
 Example - /api/2.2.0/launcher/?spacecraft=37
  */
 export const spacecraftFlightRetrieve = (
-    id: number, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<SpacecraftFlightDetailed>> => {
-    return axios.get(
-      `/2.2.0/spacecraft/flight/${id}/`,options
-    );
+  id: number,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<SpacecraftFlightDetailed>> => {
+  return axios.get(`/2.2.0/spacecraft/flight/${id}/`, options);
+};
+
+export const getSpacecraftFlightRetrieveQueryKey = (id: number) => [
+  `/2.2.0/spacecraft/flight/${id}/`,
+];
+
+export type SpacecraftFlightRetrieveQueryResult = NonNullable<
+  Awaited<ReturnType<typeof spacecraftFlightRetrieve>>
+>;
+export type SpacecraftFlightRetrieveQueryError = AxiosError<unknown>;
+
+export const useSpacecraftFlightRetrieve = <
+  TData = Awaited<ReturnType<typeof spacecraftFlightRetrieve>>,
+  TError = AxiosError<unknown>
+>(
+  id: number,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof spacecraftFlightRetrieve>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
+  const queryKey =
+    queryOptions?.queryKey ?? getSpacecraftFlightRetrieveQueryKey(id);
 
-export const getSpacecraftFlightRetrieveQueryKey = (id: number,) => [`/2.2.0/spacecraft/flight/${id}/`];
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof spacecraftFlightRetrieve>>
+  > = ({ signal }) => spacecraftFlightRetrieve(id, { signal, ...axiosOptions });
 
-    
-export type SpacecraftFlightRetrieveQueryResult = NonNullable<Awaited<ReturnType<typeof spacecraftFlightRetrieve>>>
-export type SpacecraftFlightRetrieveQueryError = AxiosError<unknown>
-
-export const useSpacecraftFlightRetrieve = <TData = Awaited<ReturnType<typeof spacecraftFlightRetrieve>>, TError = AxiosError<unknown>>(
- id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof spacecraftFlightRetrieve>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getSpacecraftFlightRetrieveQueryKey(id);
-
-  
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof spacecraftFlightRetrieve>>> = ({ signal }) => spacecraftFlightRetrieve(id, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof spacecraftFlightRetrieve>>, TError, TData>(queryKey, queryFn, {enabled: !!(id), ...queryOptions})
+  const query = useQuery<
+    Awaited<ReturnType<typeof spacecraftFlightRetrieve>>,
+    TError,
+    TData
+  >(queryKey, queryFn, { enabled: !!id, ...queryOptions });
 
   return {
     queryKey,
-    ...query
-  }
-}
-
+    ...query,
+  };
+};

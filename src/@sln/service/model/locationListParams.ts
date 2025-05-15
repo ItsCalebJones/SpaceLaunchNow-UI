@@ -12,4 +12,12 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type LocationListParams = { country_code?: string; id?: number; limit?: number; name?: string; offset?: number; pad__location_id?: number | null; search?: string };
+export type LocationListParams = {
+  country_code?: string;
+  id?: number;
+  limit?: number;
+  name?: string;
+  offset?: number;
+  pad__location_id?: number | null;
+  search?: string;
+};

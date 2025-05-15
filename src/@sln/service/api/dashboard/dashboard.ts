@@ -11,56 +11,61 @@ Please use https://lldev.thespacedevs.com for development testing - the developm
 If you are interested in a higher rate limit please consider supporting the project on Patreon for access to an API Key.
  * OpenAPI spec version: v2.2.0
  */
-import axios,{
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError
-} from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import {
   useQuery,
   UseQueryOptions,
   QueryFunction,
   UseQueryResult,
-  QueryKey
-} from 'react-query'
-
+  QueryKey,
+} from "react-query";
 
 /**
  * Return a dashboard of SpaceX operations for Starship development.
  */
 export const dashboardStarshipRetrieve = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    return axios.get(
-      `/2.2.0/dashboard/starship/`,options
-    );
-  }
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.get(`/2.2.0/dashboard/starship/`, options);
+};
 
+export const getDashboardStarshipRetrieveQueryKey = () => [
+  `/2.2.0/dashboard/starship/`,
+];
 
-export const getDashboardStarshipRetrieveQueryKey = () => [`/2.2.0/dashboard/starship/`];
+export type DashboardStarshipRetrieveQueryResult = NonNullable<
+  Awaited<ReturnType<typeof dashboardStarshipRetrieve>>
+>;
+export type DashboardStarshipRetrieveQueryError = AxiosError<unknown>;
 
-    
-export type DashboardStarshipRetrieveQueryResult = NonNullable<Awaited<ReturnType<typeof dashboardStarshipRetrieve>>>
-export type DashboardStarshipRetrieveQueryError = AxiosError<unknown>
+export const useDashboardStarshipRetrieve = <
+  TData = Awaited<ReturnType<typeof dashboardStarshipRetrieve>>,
+  TError = AxiosError<unknown>
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof dashboardStarshipRetrieve>>,
+    TError,
+    TData
+  >;
+  axios?: AxiosRequestConfig;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-export const useDashboardStarshipRetrieve = <TData = Awaited<ReturnType<typeof dashboardStarshipRetrieve>>, TError = AxiosError<unknown>>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof dashboardStarshipRetrieve>>, TError, TData>, axios?: AxiosRequestConfig}
+  const queryKey =
+    queryOptions?.queryKey ?? getDashboardStarshipRetrieveQueryKey();
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof dashboardStarshipRetrieve>>
+  > = ({ signal }) => dashboardStarshipRetrieve({ signal, ...axiosOptions });
 
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getDashboardStarshipRetrieveQueryKey();
-
-  
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof dashboardStarshipRetrieve>>> = ({ signal }) => dashboardStarshipRetrieve({ signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof dashboardStarshipRetrieve>>, TError, TData>(queryKey, queryFn, queryOptions)
+  const query = useQuery<
+    Awaited<ReturnType<typeof dashboardStarshipRetrieve>>,
+    TError,
+    TData
+  >(queryKey, queryFn, queryOptions);
 
   return {
     queryKey,
-    ...query
-  }
-}
-
+    ...query,
+  };
+};

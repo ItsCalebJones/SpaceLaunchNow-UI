@@ -1,12 +1,12 @@
-import { Theme, Typography } from '@mui/material'
-import { TypographyProps } from '@mui/material/Typography'
-import { makeStyles } from '@sln/styles'
-import React from 'react'
+import { Theme, Typography } from "@mui/material";
+import { TypographyProps } from "@mui/material/Typography";
+import { makeStyles } from "@sln/styles";
+import React from "react";
 
 // TODO build out commonly used typography, titles, subtitles, etc
 const useStyles = makeStyles()((theme: Theme) => ({
   standard: {
-    fontSize: '1rem', // 16px
+    fontSize: "1rem", // 16px
     fontWeight: 400,
     lineHeight: 1.43,
     color: theme.palette.text.primary,
@@ -14,7 +14,7 @@ const useStyles = makeStyles()((theme: Theme) => ({
   },
 
   standardTitle: {
-    fontSize: '.75rem',
+    fontSize: ".75rem",
     textTransform: "uppercase",
     fontWeight: 500,
     lineHeight: 1.5,
@@ -23,60 +23,60 @@ const useStyles = makeStyles()((theme: Theme) => ({
   },
 
   textTitleWhite: {
-    fontSize: '.75rem',
+    fontSize: ".75rem",
     textTransform: "uppercase",
     fontWeight: 500,
     lineHeight: 1.5,
     color: "rgba(255,255,255,0.7) !important",
-    fontFamily: "Roboto"
+    fontFamily: "Roboto",
   },
 
   textWhite: {
-    fontSize: '14px',
+    fontSize: "14px",
     fontWeight: 300,
     lineHeight: 1.5,
     color: "rgba(255,255,255,0.7) !important",
     fontFamily: "Roboto",
     marginTop: "10px",
-    marginBottom: "10px"
+    marginBottom: "10px",
   },
-  
+
   buttonText: {
     color: "white",
-    fontSize: '12px',
+    fontSize: "12px",
     fontWeight: 400,
     lineHeight: 1.6,
   },
 
   subButtonText: {
     color: "black",
-    fontSize: '.8125rem',
+    fontSize: ".8125rem",
     fontWeight: 300,
     lineHeight: 1.4,
     textTransform: "none",
   },
-    
+
   boldTitleWhite: {
-    fontSize: '3.125rem',
+    fontSize: "3.125rem",
     fontWeight: 700,
     lineHeight: 1.2,
     color: theme.palette.common.white,
   },
   subTitleWhite: {
-    fontSize: '2.25rem',
+    fontSize: "2.25rem",
     fontWeight: 300,
     lineHeight: 1.2,
     color: theme.palette.common.white,
-  }, 
+  },
 
   sectionTitleWhite: {
-    fontSize: '2.25rem',
+    fontSize: "2.25rem",
     fontWeight: 700,
     lineHeight: 1.5,
     color: theme.palette.common.white,
   },
   sectionSubTitleWhite: {
-    fontSize: '1.5rem',
+    fontSize: "1.5rem",
     fontWeight: 300,
     lineHeight: 1.4,
     color: theme.palette.common.white,
@@ -84,59 +84,57 @@ const useStyles = makeStyles()((theme: Theme) => ({
 
   // titles
   sectionTitle: {
-    fontSize: '2.25rem',
+    fontSize: "2.25rem",
     fontWeight: 700,
     lineHeight: 1.2,
     color: theme.palette.text.primary,
   },
   sectionSubTitl: {
-    fontSize: '1.5rem',
+    fontSize: "1.5rem",
     fontWeight: 300,
     lineHeight: 1.4,
     color: theme.palette.text.primary,
   },
 
   boldTitle: {
-    fontSize: '5rem',
+    fontSize: "5rem",
     fontWeight: 700,
     lineHeight: 1.2,
     color: theme.palette.text.primary,
   },
 
-  // event card fonts 
+  // event card fonts
   eventCategory: {
-    fontSize: '.75rem',
+    fontSize: ".75rem",
     fontWeight: 500,
     lineHeight: 0,
-    color: '#00bcd4!important',
-    textTransform: 'uppercase',
+    color: "#00bcd4!important",
+    textTransform: "uppercase",
   },
   eventDate: {
-    fontSize: '.75rem',
+    fontSize: ".75rem",
     fontWeight: 500,
     lineHeight: 0,
-    color: '#999',
-    textTransform: 'uppercase',
+    color: "#999",
+    textTransform: "uppercase",
   },
   eventTitle: {
-    fontSize: '1.5625rem',
+    fontSize: "1.5625rem",
     fontWeight: 700,
     lineHeight: 0,
-    color: '#3c4858',
-  }
+    color: "#3c4858",
+  },
+}));
 
-
-}))
-
-type Kind = keyof ReturnType<typeof useStyles>['classes']
+type Kind = keyof ReturnType<typeof useStyles>["classes"];
 
 const getVariant = (kind: Kind) => {
-  if (kind === 'boldTitle') return 'h1'
-  return null
-}
+  if (kind === "boldTitle") return "h1";
+  return null;
+};
 
 interface Props {
-  kind?: Kind
+  kind?: Kind;
 }
 
 export const SLNTypography: React.FC<Props & TypographyProps> = ({
@@ -144,16 +142,15 @@ export const SLNTypography: React.FC<Props & TypographyProps> = ({
   className: userClassName,
   ...rest
 }) => {
-  const { classes, cx } = useStyles()
-    return (
-     
+  const { classes, cx } = useStyles();
+  return (
     <Typography
-        className={cx(classes.standard, classes[kind], userClassName)}
-        // @ts-ignore - weird ts error but is harmless i think
-        variant={getVariant(kind)}
-        uppercase={false}
+      className={cx(classes.standard, classes[kind], userClassName)}
+      // @ts-ignore - weird ts error but is harmless i think
+      variant={getVariant(kind)}
+      uppercase={false}
       {...rest}
     />
-  )
-}
-SLNTypography.displayName = 'SLNTypography'
+  );
+};
+SLNTypography.displayName = "SLNTypography";

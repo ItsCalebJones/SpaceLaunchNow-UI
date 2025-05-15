@@ -1,12 +1,12 @@
-import React from 'react'
-import {Box, Breadcrumbs, Link, Typography} from '@mui/material'
+import React from "react";
+import { Box, Breadcrumbs, Link, Typography } from "@mui/material";
 
 const MUIBreadcrumbs = () => {
-  return ( <Box>
-    <Breadcrumbs>
-    </Breadcrumbs>
-  </Box>
-  )
-}
+  return (
+    <Box>
+      <Breadcrumbs></Breadcrumbs>
+    </Box>
+  );
+};
 
-export default MUIBreadcrumbs
+export default MUIBreadcrumbs;

@@ -12,4 +12,16 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type ConfigLauncherListParams = { active?: boolean; family?: string; full_name?: string; limit?: number; manufacturer?: number; name?: string; offset?: number; ordering?: string; program?: number[]; reusable?: boolean; search?: string };
+export type ConfigLauncherListParams = {
+  active?: boolean;
+  family?: string;
+  full_name?: string;
+  limit?: number;
+  manufacturer?: number;
+  name?: string;
+  offset?: number;
+  ordering?: string;
+  program?: number[];
+  reusable?: boolean;
+  search?: string;
+};

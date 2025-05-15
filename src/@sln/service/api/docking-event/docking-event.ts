@@ -11,24 +11,19 @@ Please use https://lldev.thespacedevs.com for development testing - the developm
 If you are interested in a higher rate limit please consider supporting the project on Patreon for access to an API Key.
  * OpenAPI spec version: v2.2.0
  */
-import axios,{
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError
-} from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import {
   useQuery,
   UseQueryOptions,
   QueryFunction,
   UseQueryResult,
-  QueryKey
-} from 'react-query'
+  QueryKey,
+} from "react-query";
 import type {
   PaginatedDockingEventList,
   DockingEventListParams,
-  DockingEventDetailed
-} from '../../model'
-
+  DockingEventDetailed,
+} from "../../model";
 
 /**
  * API endpoint that allows Docking Events to be viewed.
@@ -50,42 +45,57 @@ Order reverse via Docking date.
 Example - /2.2.0/docking_event/?ordering=-docking
  */
 export const dockingEventList = (
-    params?: DockingEventListParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PaginatedDockingEventList>> => {
-    return axios.get(
-      `/2.2.0/docking_event/`,{
-        params,
-    ...options}
-    );
+  params?: DockingEventListParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<PaginatedDockingEventList>> => {
+  return axios.get(`/2.2.0/docking_event/`, {
+    params,
+    ...options,
+  });
+};
+
+export const getDockingEventListQueryKey = (
+  params?: DockingEventListParams
+) => [`/2.2.0/docking_event/`, ...(params ? [params] : [])];
+
+export type DockingEventListQueryResult = NonNullable<
+  Awaited<ReturnType<typeof dockingEventList>>
+>;
+export type DockingEventListQueryError = AxiosError<unknown>;
+
+export const useDockingEventList = <
+  TData = Awaited<ReturnType<typeof dockingEventList>>,
+  TError = AxiosError<unknown>
+>(
+  params?: DockingEventListParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof dockingEventList>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
+  const queryKey =
+    queryOptions?.queryKey ?? getDockingEventListQueryKey(params);
 
-export const getDockingEventListQueryKey = (params?: DockingEventListParams,) => [`/2.2.0/docking_event/`, ...(params ? [params]: [])];
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof dockingEventList>>> =
+    ({ signal }) => dockingEventList(params, { signal, ...axiosOptions });
 
-    
-export type DockingEventListQueryResult = NonNullable<Awaited<ReturnType<typeof dockingEventList>>>
-export type DockingEventListQueryError = AxiosError<unknown>
-
-export const useDockingEventList = <TData = Awaited<ReturnType<typeof dockingEventList>>, TError = AxiosError<unknown>>(
- params?: DockingEventListParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof dockingEventList>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getDockingEventListQueryKey(params);
-
-  
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof dockingEventList>>> = ({ signal }) => dockingEventList(params, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof dockingEventList>>, TError, TData>(queryKey, queryFn, queryOptions)
+  const query = useQuery<
+    Awaited<ReturnType<typeof dockingEventList>>,
+    TError,
+    TData
+  >(queryKey, queryFn, queryOptions);
 
   return {
     queryKey,
-    ...query
-  }
-}
+    ...query,
+  };
+};
 
 /**
  * API endpoint that allows Docking Events to be viewed.
@@ -107,38 +117,52 @@ Order reverse via Docking date.
 Example - /2.2.0/docking_event/?ordering=-docking
  */
 export const dockingEventRetrieve = (
-    id: number, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<DockingEventDetailed>> => {
-    return axios.get(
-      `/2.2.0/docking_event/${id}/`,options
-    );
+  id: number,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<DockingEventDetailed>> => {
+  return axios.get(`/2.2.0/docking_event/${id}/`, options);
+};
+
+export const getDockingEventRetrieveQueryKey = (id: number) => [
+  `/2.2.0/docking_event/${id}/`,
+];
+
+export type DockingEventRetrieveQueryResult = NonNullable<
+  Awaited<ReturnType<typeof dockingEventRetrieve>>
+>;
+export type DockingEventRetrieveQueryError = AxiosError<unknown>;
+
+export const useDockingEventRetrieve = <
+  TData = Awaited<ReturnType<typeof dockingEventRetrieve>>,
+  TError = AxiosError<unknown>
+>(
+  id: number,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof dockingEventRetrieve>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
+  const queryKey =
+    queryOptions?.queryKey ?? getDockingEventRetrieveQueryKey(id);
 
-export const getDockingEventRetrieveQueryKey = (id: number,) => [`/2.2.0/docking_event/${id}/`];
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof dockingEventRetrieve>>
+  > = ({ signal }) => dockingEventRetrieve(id, { signal, ...axiosOptions });
 
-    
-export type DockingEventRetrieveQueryResult = NonNullable<Awaited<ReturnType<typeof dockingEventRetrieve>>>
-export type DockingEventRetrieveQueryError = AxiosError<unknown>
-
-export const useDockingEventRetrieve = <TData = Awaited<ReturnType<typeof dockingEventRetrieve>>, TError = AxiosError<unknown>>(
- id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof dockingEventRetrieve>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getDockingEventRetrieveQueryKey(id);
-
-  
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof dockingEventRetrieve>>> = ({ signal }) => dockingEventRetrieve(id, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof dockingEventRetrieve>>, TError, TData>(queryKey, queryFn, {enabled: !!(id), ...queryOptions})
+  const query = useQuery<
+    Awaited<ReturnType<typeof dockingEventRetrieve>>,
+    TError,
+    TData
+  >(queryKey, queryFn, { enabled: !!id, ...queryOptions });
 
   return {
     queryKey,
-    ...query
-  }
-}
-
+    ...query,
+  };
+};

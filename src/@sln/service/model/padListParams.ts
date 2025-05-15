@@ -12,4 +12,11 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type PadListParams = { id?: number; limit?: number; location?: number; name?: string; offset?: number; search?: string };
+export type PadListParams = {
+  id?: number;
+  limit?: number;
+  location?: number;
+  name?: string;
+  offset?: number;
+  search?: string;
+};

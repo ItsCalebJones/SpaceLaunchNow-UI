@@ -12,4 +12,10 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type EventUpcomingListParams = { limit?: number; offset?: number; program?: number[]; search?: string; type?: number };
+export type EventUpcomingListParams = {
+  limit?: number;
+  offset?: number;
+  program?: number[];
+  search?: string;
+  type?: number;
+};

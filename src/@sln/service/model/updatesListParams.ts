@@ -12,4 +12,13 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type UpdatesListParams = { created_on?: string; launch?: string; launch__launch_service_provider?: number; limit?: number; offset?: number; ordering?: string; program?: number; search?: string };
+export type UpdatesListParams = {
+  created_on?: string;
+  launch?: string;
+  launch__launch_service_provider?: number;
+  limit?: number;
+  offset?: number;
+  ordering?: string;
+  program?: number;
+  search?: string;
+};

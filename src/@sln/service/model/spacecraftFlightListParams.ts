@@ -12,4 +12,8 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type SpacecraftFlightListParams = { limit?: number; offset?: number; spacecraft?: number };
+export type SpacecraftFlightListParams = {
+  limit?: number;
+  offset?: number;
+  spacecraft?: number;
+};

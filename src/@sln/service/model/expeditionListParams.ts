@@ -12,4 +12,21 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type ExpeditionListParams = { crew__astronaut?: number; crew__astronaut__agency?: number; end__gt?: string; end__gte?: string; end__lt?: string; end__lte?: string; limit?: number; name?: string; offset?: number; ordering?: string; search?: string; space_station?: number; start__gt?: string; start__gte?: string; start__lt?: string; start__lte?: string };
+export type ExpeditionListParams = {
+  crew__astronaut?: number;
+  crew__astronaut__agency?: number;
+  end__gt?: string;
+  end__gte?: string;
+  end__lt?: string;
+  end__lte?: string;
+  limit?: number;
+  name?: string;
+  offset?: number;
+  ordering?: string;
+  search?: string;
+  space_station?: number;
+  start__gt?: string;
+  start__gte?: string;
+  start__lt?: string;
+  start__lte?: string;
+};

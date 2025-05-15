@@ -12,4 +12,12 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type AgenciesListParams = { agency_type?: number; country_code?: string; featured?: boolean; limit?: number; offset?: number; ordering?: string; search?: string };
+export type AgenciesListParams = {
+  agency_type?: number;
+  country_code?: string;
+  featured?: boolean;
+  limit?: number;
+  offset?: number;
+  ordering?: string;
+  search?: string;
+};

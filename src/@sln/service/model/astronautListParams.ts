@@ -12,4 +12,24 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type AstronautListParams = { agency__abbrev?: string; agency__name?: string; date_of_birth?: string; date_of_birth__gt?: string; date_of_birth__gte?: string; date_of_birth__lt?: string; date_of_birth__lte?: string; date_of_death?: string; date_of_death__gt?: string; date_of_death__gte?: string; date_of_death__lt?: string; date_of_death__lte?: string; limit?: number; name?: string; nationality?: string; offset?: number; ordering?: string; search?: string; status?: number };
+export type AstronautListParams = {
+  agency__abbrev?: string;
+  agency__name?: string;
+  date_of_birth?: string;
+  date_of_birth__gt?: string;
+  date_of_birth__gte?: string;
+  date_of_birth__lt?: string;
+  date_of_birth__lte?: string;
+  date_of_death?: string;
+  date_of_death__gt?: string;
+  date_of_death__gte?: string;
+  date_of_death__lt?: string;
+  date_of_death__lte?: string;
+  limit?: number;
+  name?: string;
+  nationality?: string;
+  offset?: number;
+  ordering?: string;
+  search?: string;
+  status?: number;
+};

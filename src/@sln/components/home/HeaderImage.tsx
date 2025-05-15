@@ -1,11 +1,6 @@
 // src/pages/Home.tsx
 import React, { ReactElement, FC, useState } from "react";
-import {
-  Box,
-  Grid,
-  Link,
-  Theme,
-} from "@mui/material";
+import { Box, Grid, Link, Theme } from "@mui/material";
 import { makeStyles } from "@sln/styles/";
 import { SLNTypography } from "@sln/components/SLNTypography";
 import bgImage from "@sln/assets/images/header_starship.jpg";
@@ -38,9 +33,9 @@ const useStyles = makeStyles()((theme: Theme) => ({
     boxShadow:
       "0 16px 38px -12px rgb(0 0 0 / 56%), 0 4px 25px 0 rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(0 0 0 / 20%)",
   },
-  textShadow:{
+  textShadow: {
     filter: "drop-shadow(#00000059 2px 2px 4px)",
-  }
+  },
 }));
 
 const HeaderIcon: FC<any> = (): ReactElement => {

@@ -12,4 +12,9 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type ConfigAstronautstatusListParams = { limit?: number; offset?: number; ordering?: string; search?: string };
+export type ConfigAstronautstatusListParams = {
+  limit?: number;
+  offset?: number;
+  ordering?: string;
+  search?: string;
+};

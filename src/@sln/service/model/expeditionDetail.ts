@@ -11,9 +11,9 @@ Please use https://lldev.thespacedevs.com for development testing - the developm
 If you are interested in a higher rate limit please consider supporting the project on Patreon for access to an API Key.
  * OpenAPI spec version: v2.2.0
  */
-import type { SpaceStationDetailedSerializerForExpedition } from './spaceStationDetailedSerializerForExpedition';
-import type { AstronautFlightForExpedition } from './astronautFlightForExpedition';
-import type { MissionPatch } from './missionPatch';
+import type { SpaceStationDetailedSerializerForExpedition } from "./spaceStationDetailedSerializerForExpedition";
+import type { AstronautFlightForExpedition } from "./astronautFlightForExpedition";
+import type { MissionPatch } from "./missionPatch";
 
 export interface ExpeditionDetail {
   readonly id: number;

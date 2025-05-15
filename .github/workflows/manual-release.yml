@@ -4,14 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to deploy to'
+        description: "Environment to deploy to"
         required: true
-        default: 'production'
+        default: "production"
         type: choice
         options:
           - production
           - staging
-          
+
 # Add permissions needed for check runs
 permissions:
   contents: read
@@ -20,23 +20,23 @@ permissions:
 env:
   IMAGE_NAME: sln-ui
   REGISTRY_NAME: registry.digitalocean.com/spacelaunchnow-registry/
-  
+
 jobs:
   deploy:
     name: Deploy UI Release
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-          
+
       - name: Login to container registry
         run: doctl registry login --expiry-seconds 600
-      
+
       - name: Set environment variables
         run: |
           if [ "${{ github.event.inputs.environment }}" = "production" ]; then
@@ -50,30 +50,30 @@ jobs:
             echo "VALUES=k8s/helm/values-staging.yaml" >> $GITHUB_ENV
             echo "TAG=staging" >> $GITHUB_ENV
           fi
-      
+
       - name: Create tag if production
         if: github.event.inputs.environment == 'production'
         run: |
           docker pull ${{env.REGISTRY_NAME}}${{ env.IMAGE_NAME }}:production
           docker tag ${{env.REGISTRY_NAME}}${{ env.IMAGE_NAME }}:production ${{env.REGISTRY_NAME}}${{ env.IMAGE_NAME }}:latest
           docker push ${{env.REGISTRY_NAME}}${{ env.IMAGE_NAME }}:latest
-          
+
       - name: Install kubectl
         uses: azure/setup-kubectl@v4
         with:
-          version: 'v1.24.0'
-          
+          version: "v1.24.0"
+
       - name: Install helm
         uses: azure/setup-helm@v4
         with:
-          version: 'v3.8.1'
-          
+          version: "v3.8.1"
+
       - name: Create kubeconfig
         run: |
           mkdir ${HOME}/.kube
           echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ${HOME}/.kube/config
           chmod go-r ${HOME}/.kube/config
-          
+
       - name: Deploy to K8s
         run: |
           kubectl config use-context do-nyc1-k8s-spacelaunchnow-dev
@@ -85,7 +85,7 @@ jobs:
             # Restart the pods (replacing deprecated --recreate-pods flag)
             kubectl rollout restart deployment/$RELEASE_NAME-web -n $DEPLOYMENT_NAMESPACE
           fi
-      
+
       - name: Send Discord Notification
         uses: sarisia/actions-status-discord@v1.13.0
         if: always()

@@ -96,7 +96,10 @@ const Home: FC<any> = (): ReactElement => {
     backgroundPosition: "center center",
   };
 
-  const { data: launches, isLoading } = useLaunchUpcomingList({limit: 1, hide_recent_previous: true});
+  const { data: launches, isLoading } = useLaunchUpcomingList({
+    limit: 1,
+    hide_recent_previous: true,
+  });
 
   // TODO figure out how to stack these properly
   return (
@@ -138,11 +141,12 @@ const Home: FC<any> = (): ReactElement => {
                     </SLNTypography>
                   </Grid>
                   <Grid item xs={12}>
-                    <Divider 
-                    variant="fullWidth" 
-                    sx={{
-                      borderTop: "1px solid rgba(0,0,0,0.1)"
-                    }}/>
+                    <Divider
+                      variant="fullWidth"
+                      sx={{
+                        borderTop: "1px solid rgba(0,0,0,0.1)",
+                      }}
+                    />
                   </Grid>
                 </Grid>
 
@@ -151,66 +155,68 @@ const Home: FC<any> = (): ReactElement => {
                     key={launch.id}
                     sx={{
                       width: "80%",
-                      position: 'relative',
+                      position: "relative",
                       minHeight: 500,
                       backgroundImage: `url(${launch.image})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center center",
                       margin: 5,
-                      ':after': {
-                        position: 'absolute',
+                      ":after": {
+                        position: "absolute",
                         zIndex: 1,
                         width: "100%",
                         height: "100%",
                         backgroundColor: "rgba(19, 19, 19, 0.44)",
                         content: '""',
                         top: 0,
-                        left: 0
-                      }
-                    }}>
-                      <CardContent
+                        left: 0,
+                      },
+                    }}
+                  >
+                    <CardContent
                       sx={{
-                          position: 'relative',
-                          zIndex: 2
-                        }}>
-                          <Stack
-                            direction="column"
-                            mt={5}
-                            maxWidth="500px"
-                            textAlign="center"
-                            margin="0 auto"
-                          >
-                            <SLNTypography kind="sectionTitleWhite"
-                              sx={{
-
-                                marginTop: "20px",
-                                marginBottom: "12px",
-                              }}
-                            >
-                              {launch.name}
-                            </SLNTypography>
-                            <SLNCountdown date={launch.net} />
-                            <SLNTypography kind="sectionSubTitleWhite">
-                              {date_builder(launch.net)}
-                            </SLNTypography>
-                            <Divider 
-                              variant="fullWidth"
-                              sx={{
-                                borderTop: "1px solid rgba(0,0,0,0.1)",
-                                marginTop: "1rem",
-                                marginBottom: "1rem"
-                              }}
-                            />
-                            <SLNTypography kind="textTitleWhite">
-                              {launch.mission.type}
-                            </SLNTypography>
-                            <SLNTypography kind="textWhite">
-                              {launch.mission.description}
-                            </SLNTypography>
-                          </Stack>
-                      </CardContent>
-                    </Card>
-                  ))}
+                        position: "relative",
+                        zIndex: 2,
+                      }}
+                    >
+                      <Stack
+                        direction="column"
+                        mt={5}
+                        maxWidth="500px"
+                        textAlign="center"
+                        margin="0 auto"
+                      >
+                        <SLNTypography
+                          kind="sectionTitleWhite"
+                          sx={{
+                            marginTop: "20px",
+                            marginBottom: "12px",
+                          }}
+                        >
+                          {launch.name}
+                        </SLNTypography>
+                        <SLNCountdown date={launch.net} />
+                        <SLNTypography kind="sectionSubTitleWhite">
+                          {date_builder(launch.net)}
+                        </SLNTypography>
+                        <Divider
+                          variant="fullWidth"
+                          sx={{
+                            borderTop: "1px solid rgba(0,0,0,0.1)",
+                            marginTop: "1rem",
+                            marginBottom: "1rem",
+                          }}
+                        />
+                        <SLNTypography kind="textTitleWhite">
+                          {launch.mission.type}
+                        </SLNTypography>
+                        <SLNTypography kind="textWhite">
+                          {launch.mission.description}
+                        </SLNTypography>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                ))}
               </Stack>
             </Grid>
             <Grid

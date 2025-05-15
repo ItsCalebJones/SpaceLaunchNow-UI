@@ -11,24 +11,19 @@ Please use https://lldev.thespacedevs.com for development testing - the developm
 If you are interested in a higher rate limit please consider supporting the project on Patreon for access to an API Key.
  * OpenAPI spec version: v2.2.0
  */
-import axios,{
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError
-} from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import {
   useQuery,
   UseQueryOptions,
   QueryFunction,
   UseQueryResult,
-  QueryKey
-} from 'react-query'
+  QueryKey,
+} from "react-query";
 import type {
   PaginatedSpaceStationList,
   SpacestationListParams,
-  SpaceStationDetailed
-} from '../../model'
-
+  SpaceStationDetailed,
+} from "../../model";
 
 /**
  * API endpoint that allows Space Stations to be viewed.
@@ -49,42 +44,57 @@ Fields - 'id', 'name', status', 'type', 'founded', 'volume'
 Example - /api/2.2.0/spacestation/?ordering=id
  */
 export const spacestationList = (
-    params?: SpacestationListParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PaginatedSpaceStationList>> => {
-    return axios.get(
-      `/2.2.0/spacestation/`,{
-        params,
-    ...options}
-    );
+  params?: SpacestationListParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<PaginatedSpaceStationList>> => {
+  return axios.get(`/2.2.0/spacestation/`, {
+    params,
+    ...options,
+  });
+};
+
+export const getSpacestationListQueryKey = (
+  params?: SpacestationListParams
+) => [`/2.2.0/spacestation/`, ...(params ? [params] : [])];
+
+export type SpacestationListQueryResult = NonNullable<
+  Awaited<ReturnType<typeof spacestationList>>
+>;
+export type SpacestationListQueryError = AxiosError<unknown>;
+
+export const useSpacestationList = <
+  TData = Awaited<ReturnType<typeof spacestationList>>,
+  TError = AxiosError<unknown>
+>(
+  params?: SpacestationListParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof spacestationList>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
+  const queryKey =
+    queryOptions?.queryKey ?? getSpacestationListQueryKey(params);
 
-export const getSpacestationListQueryKey = (params?: SpacestationListParams,) => [`/2.2.0/spacestation/`, ...(params ? [params]: [])];
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof spacestationList>>> =
+    ({ signal }) => spacestationList(params, { signal, ...axiosOptions });
 
-    
-export type SpacestationListQueryResult = NonNullable<Awaited<ReturnType<typeof spacestationList>>>
-export type SpacestationListQueryError = AxiosError<unknown>
-
-export const useSpacestationList = <TData = Awaited<ReturnType<typeof spacestationList>>, TError = AxiosError<unknown>>(
- params?: SpacestationListParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof spacestationList>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getSpacestationListQueryKey(params);
-
-  
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof spacestationList>>> = ({ signal }) => spacestationList(params, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof spacestationList>>, TError, TData>(queryKey, queryFn, queryOptions)
+  const query = useQuery<
+    Awaited<ReturnType<typeof spacestationList>>,
+    TError,
+    TData
+  >(queryKey, queryFn, queryOptions);
 
   return {
     queryKey,
-    ...query
-  }
-}
+    ...query,
+  };
+};
 
 /**
  * API endpoint that allows Space Stations to be viewed.
@@ -105,38 +115,52 @@ Fields - 'id', 'name', status', 'type', 'founded', 'volume'
 Example - /api/2.2.0/spacestation/?ordering=id
  */
 export const spacestationRetrieve = (
-    id: number, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<SpaceStationDetailed>> => {
-    return axios.get(
-      `/2.2.0/spacestation/${id}/`,options
-    );
+  id: number,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<SpaceStationDetailed>> => {
+  return axios.get(`/2.2.0/spacestation/${id}/`, options);
+};
+
+export const getSpacestationRetrieveQueryKey = (id: number) => [
+  `/2.2.0/spacestation/${id}/`,
+];
+
+export type SpacestationRetrieveQueryResult = NonNullable<
+  Awaited<ReturnType<typeof spacestationRetrieve>>
+>;
+export type SpacestationRetrieveQueryError = AxiosError<unknown>;
+
+export const useSpacestationRetrieve = <
+  TData = Awaited<ReturnType<typeof spacestationRetrieve>>,
+  TError = AxiosError<unknown>
+>(
+  id: number,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof spacestationRetrieve>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
+  const queryKey =
+    queryOptions?.queryKey ?? getSpacestationRetrieveQueryKey(id);
 
-export const getSpacestationRetrieveQueryKey = (id: number,) => [`/2.2.0/spacestation/${id}/`];
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof spacestationRetrieve>>
+  > = ({ signal }) => spacestationRetrieve(id, { signal, ...axiosOptions });
 
-    
-export type SpacestationRetrieveQueryResult = NonNullable<Awaited<ReturnType<typeof spacestationRetrieve>>>
-export type SpacestationRetrieveQueryError = AxiosError<unknown>
-
-export const useSpacestationRetrieve = <TData = Awaited<ReturnType<typeof spacestationRetrieve>>, TError = AxiosError<unknown>>(
- id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof spacestationRetrieve>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getSpacestationRetrieveQueryKey(id);
-
-  
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof spacestationRetrieve>>> = ({ signal }) => spacestationRetrieve(id, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof spacestationRetrieve>>, TError, TData>(queryKey, queryFn, {enabled: !!(id), ...queryOptions})
+  const query = useQuery<
+    Awaited<ReturnType<typeof spacestationRetrieve>>,
+    TError,
+    TData
+  >(queryKey, queryFn, { enabled: !!id, ...queryOptions });
 
   return {
     queryKey,
-    ...query
-  }
-}
-
+    ...query,
+  };
+};

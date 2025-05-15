@@ -11,11 +11,11 @@ Please use https://lldev.thespacedevs.com for development testing - the developm
 If you are interested in a higher rate limit please consider supporting the project on Patreon for access to an API Key.
  * OpenAPI spec version: v2.2.0
  */
-import type { SpaceStationStatus } from './spaceStationStatus';
-import type { SpaceStationType } from './spaceStationType';
-import type { Agency } from './agency';
-import type { ExpeditionDetailedSerializerForSpacestation } from './expeditionDetailedSerializerForSpacestation';
-import type { DockingLocationSerializerForSpacestation } from './dockingLocationSerializerForSpacestation';
+import type { SpaceStationStatus } from "./spaceStationStatus";
+import type { SpaceStationType } from "./spaceStationType";
+import type { Agency } from "./agency";
+import type { ExpeditionDetailedSerializerForSpacestation } from "./expeditionDetailedSerializerForSpacestation";
+import type { DockingLocationSerializerForSpacestation } from "./dockingLocationSerializerForSpacestation";
 
 export interface SpaceStationDetailed {
   readonly id: number;

@@ -12,4 +12,16 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type DockingEventListParams = { docking__gt?: string; docking__gte?: string; docking__lt?: string; docking__lte?: string; docking_location__id?: number; flight_vehicle__id?: number; limit?: number; offset?: number; ordering?: string; search?: string; space_station__id?: number };
+export type DockingEventListParams = {
+  docking__gt?: string;
+  docking__gte?: string;
+  docking__lt?: string;
+  docking__lte?: string;
+  docking_location__id?: number;
+  flight_vehicle__id?: number;
+  limit?: number;
+  offset?: number;
+  ordering?: string;
+  search?: string;
+  space_station__id?: number;
+};

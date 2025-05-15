@@ -12,4 +12,16 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type SpacestationListParams = { limit?: number; name?: string; offset?: number; orbit?: number; ordering?: string; owners?: number[]; owners__abbrev?: string; owners__name?: string; search?: string; status?: number; type?: number };
+export type SpacestationListParams = {
+  limit?: number;
+  name?: string;
+  offset?: number;
+  orbit?: number;
+  ordering?: string;
+  owners?: number[];
+  owners__abbrev?: string;
+  owners__name?: string;
+  search?: string;
+  status?: number;
+  type?: number;
+};

@@ -11,11 +11,11 @@ Please use https://lldev.thespacedevs.com for development testing - the developm
 If you are interested in a higher rate limit please consider supporting the project on Patreon for access to an API Key.
  * OpenAPI spec version: v2.2.0
  */
-import type { AstronautStatus } from './astronautStatus';
-import type { AstronautType } from './astronautType';
-import type { AgencySerializerMini } from './agencySerializerMini';
-import type { LaunchSerializerCommon } from './launchSerializerCommon';
-import type { SpacecraftFlight } from './spacecraftFlight';
+import type { AstronautStatus } from "./astronautStatus";
+import type { AstronautType } from "./astronautType";
+import type { AgencySerializerMini } from "./agencySerializerMini";
+import type { LaunchSerializerCommon } from "./launchSerializerCommon";
+import type { SpacecraftFlight } from "./spacecraftFlight";
 
 export interface AstronautDetailed {
   readonly id: number;

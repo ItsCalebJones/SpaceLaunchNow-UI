@@ -15,7 +15,7 @@ export const LaunchList: FC = (): ReactElement => {
         <Grid container direction="column" alignItems="center">
           <Grid item xs={12}>
             <Typography color="black" variant="h5">
-            Space Launch Now
+              Space Launch Now
             </Typography>
           </Grid>
           <Grid item xs={12}>

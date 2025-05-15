@@ -12,9 +12,15 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import SendIcon from "@mui/icons-material/ArrowDropDown";
 import { MenuRoute, routes } from "@sln/routes";
-import { makeStyles } from "@sln/styles/"
+import { makeStyles } from "@sln/styles/";
 import { NavLink } from "react-router-dom";
-import { Link, ListItemIcon, ListItemText, Theme, useTheme } from "@mui/material";
+import {
+  Link,
+  ListItemIcon,
+  ListItemText,
+  Theme,
+  useTheme,
+} from "@mui/material";
 import HorizontalRule from "./utils/HorizontalRule";
 import { Shop, Apple } from "@mui/icons-material";
 
@@ -156,7 +162,7 @@ const ResponsiveAppBar = ({ transparent }) => {
                 anchorElLaunches={anchorElLaunches}
               />
             ))}
-            <Button startIcon={<Shop fontSize="small" htmlColor="white"/>}>
+            <Button startIcon={<Shop fontSize="small" htmlColor="white" />}>
               <SLNTypography kind="buttonText">Android</SLNTypography>
             </Button>
             <Button startIcon={<Apple fontSize="small" htmlColor="white" />}>
@@ -172,10 +178,10 @@ const ResponsiveAppBar = ({ transparent }) => {
 const useStyles = makeStyles()((theme: Theme) => ({
   button: {
     "&.active": {
-      background:'rgba(255,255,255,0.1)',
+      background: "rgba(255,255,255,0.1)",
     },
-  }
-}))
+  },
+}));
 
 ResponsiveAppBar.defaultProps = {
   transparent: false,
@@ -196,7 +202,7 @@ const NavbarButton: React.FC<NavbarButtonProps> = ({
   handleCloseLaunchMenu,
   anchorElLaunches,
 }) => {
-  const { classes } = useStyles()
+  const { classes } = useStyles();
   if (menuRoute.submenu) {
     return (
       <div>
@@ -251,15 +257,16 @@ const NavbarButton: React.FC<NavbarButtonProps> = ({
     );
   } else {
     return (
-        <Button
-          className={classes.button}
-          key={menuRoute.key}
-          component={NavLink}
-          to={menuRoute.path}
-          onClick={handleCloseNavMenu}
-          sx={{ my: 2, color: "white" }}>
-          <SLNTypography kind="buttonText">{menuRoute.title}</SLNTypography>
-        </Button>
+      <Button
+        className={classes.button}
+        key={menuRoute.key}
+        component={NavLink}
+        to={menuRoute.path}
+        onClick={handleCloseNavMenu}
+        sx={{ my: 2, color: "white" }}
+      >
+        <SLNTypography kind="buttonText">{menuRoute.title}</SLNTypography>
+      </Button>
     );
   }
 };

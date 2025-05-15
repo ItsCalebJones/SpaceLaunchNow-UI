@@ -12,4 +12,13 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type ConfigSpacecraftListParams = { human_rated?: boolean; in_use?: boolean; limit?: number; manufacturer?: number; name?: string; offset?: number; ordering?: string; search?: string };
+export type ConfigSpacecraftListParams = {
+  human_rated?: boolean;
+  in_use?: boolean;
+  limit?: number;
+  manufacturer?: number;
+  name?: string;
+  offset?: number;
+  ordering?: string;
+  search?: string;
+};

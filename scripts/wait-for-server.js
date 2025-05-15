@@ -1,12 +1,12 @@
-const http = require('http');
-const { execSync } = require('child_process');
+const http = require("http");
+const { execSync } = require("child_process");
 
 // Time to wait between retry attempts (in milliseconds)
 const RETRY_INTERVAL = 2000;
 // Maximum number of retries
 const MAX_RETRIES = 60; // 2 minutes with a 2-second interval
 // URL to check
-const URL = 'http://localhost:3000';
+const URL = "http://localhost:3000";
 
 /**
  * Checks if the server is responding
@@ -16,7 +16,7 @@ function checkServer() {
   return new Promise((resolve) => {
     const req = http.get(URL, (res) => {
       if (res.statusCode === 200) {
-        console.log('✅ Server is up and running!');
+        console.log("✅ Server is up and running!");
         resolve(true);
       } else {
         console.log(`❌ Server responded with status code: ${res.statusCode}`);
@@ -24,13 +24,13 @@ function checkServer() {
       }
     });
 
-    req.on('error', (err) => {
+    req.on("error", (err) => {
       console.log(`❌ Request error: ${err.message}`);
       resolve(false);
     });
 
     req.setTimeout(5000, () => {
-      console.log('❌ Request timed out');
+      console.log("❌ Request timed out");
       req.destroy();
       resolve(false);
     });
@@ -45,43 +45,43 @@ async function startAndWaitForServer() {
   let retries = 0;
 
   // Start the server in the background
-  const serverProcess = require('child_process').spawn(
-    'npm', 
-    ['start'], 
-    {
-      stdio: 'inherit',
-      detached: true,
-      shell: true
-    }
-  );
+  const serverProcess = require("child_process").spawn("npm", ["start"], {
+    stdio: "inherit",
+    detached: true,
+    shell: true,
+  });
 
-  console.log('🚀 Starting development server...');
-  
+  console.log("🚀 Starting development server...");
+
   // Wait a bit before checking server
-  await new Promise(resolve => setTimeout(resolve, 5000));
+  await new Promise((resolve) => setTimeout(resolve, 5000));
 
   while (!serverReady && retries < MAX_RETRIES) {
-    console.log(`Checking if server is ready (attempt ${retries + 1}/${MAX_RETRIES})...`);
+    console.log(
+      `Checking if server is ready (attempt ${retries + 1}/${MAX_RETRIES})...`
+    );
     serverReady = await checkServer();
-    
+
     if (!serverReady) {
       retries++;
-      console.log(`Waiting ${RETRY_INTERVAL/1000} seconds before retrying...`);
-      await new Promise(resolve => setTimeout(resolve, RETRY_INTERVAL));
+      console.log(
+        `Waiting ${RETRY_INTERVAL / 1000} seconds before retrying...`
+      );
+      await new Promise((resolve) => setTimeout(resolve, RETRY_INTERVAL));
     }
   }
 
   if (serverReady) {
-    console.log('Server is ready! Running tests...');
+    console.log("Server is ready! Running tests...");
     // Run tests here or continue with workflow
     try {
-      execSync('npx cypress run', { stdio: 'inherit' });
+      execSync("npx cypress run", { stdio: "inherit" });
     } catch (err) {
-      console.error('❌ Cypress tests failed', err);
+      console.error("❌ Cypress tests failed", err);
       process.exit(1);
     }
   } else {
-    console.error('❌ Server failed to start in the allotted time. Aborting.');
+    console.error("❌ Server failed to start in the allotted time. Aborting.");
     process.exit(1);
   }
 

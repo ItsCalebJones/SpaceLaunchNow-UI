@@ -5,10 +5,10 @@ import Footer from "./Footer";
 
 interface LayoutProps {
   children: ReactNode;
-  transparent?: boolean
+  transparent?: boolean;
 }
 
-const BaseLayout: FC<LayoutProps> = ({ children, transparent}) => {
+const BaseLayout: FC<LayoutProps> = ({ children, transparent }) => {
   return (
     <>
       <CssBaseline />
@@ -32,6 +32,6 @@ const BaseLayout: FC<LayoutProps> = ({ children, transparent}) => {
 
 BaseLayout.defaultProps = {
   transparent: false,
-}
+};
 
 export default BaseLayout;

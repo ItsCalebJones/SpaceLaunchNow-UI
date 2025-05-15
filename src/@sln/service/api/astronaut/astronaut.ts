@@ -11,24 +11,19 @@ Please use https://lldev.thespacedevs.com for development testing - the developm
 If you are interested in a higher rate limit please consider supporting the project on Patreon for access to an API Key.
  * OpenAPI spec version: v2.2.0
  */
-import axios,{
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError
-} from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import {
   useQuery,
   UseQueryOptions,
   QueryFunction,
   UseQueryResult,
-  QueryKey
-} from 'react-query'
+  QueryKey,
+} from "react-query";
 import type {
   PaginatedAstronautNormalList,
   AstronautListParams,
-  AstronautDetailed
-} from '../../model'
-
+  AstronautDetailed,
+} from "../../model";
 
 /**
  * API endpoint that allows Astronaut to be viewed.
@@ -54,42 +49,58 @@ Fields - 'name', 'status', 'date_of_birth'
 Example - /2.2.0/astronaut/?order=name
  */
 export const astronautList = (
-    params?: AstronautListParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PaginatedAstronautNormalList>> => {
-    return axios.get(
-      `/2.2.0/astronaut/`,{
-        params,
-    ...options}
-    );
+  params?: AstronautListParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<PaginatedAstronautNormalList>> => {
+  return axios.get(`/2.2.0/astronaut/`, {
+    params,
+    ...options,
+  });
+};
+
+export const getAstronautListQueryKey = (params?: AstronautListParams) => [
+  `/2.2.0/astronaut/`,
+  ...(params ? [params] : []),
+];
+
+export type AstronautListQueryResult = NonNullable<
+  Awaited<ReturnType<typeof astronautList>>
+>;
+export type AstronautListQueryError = AxiosError<unknown>;
+
+export const useAstronautList = <
+  TData = Awaited<ReturnType<typeof astronautList>>,
+  TError = AxiosError<unknown>
+>(
+  params?: AstronautListParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof astronautList>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getAstronautListQueryKey = (params?: AstronautListParams,) => [`/2.2.0/astronaut/`, ...(params ? [params]: [])];
-
-    
-export type AstronautListQueryResult = NonNullable<Awaited<ReturnType<typeof astronautList>>>
-export type AstronautListQueryError = AxiosError<unknown>
-
-export const useAstronautList = <TData = Awaited<ReturnType<typeof astronautList>>, TError = AxiosError<unknown>>(
- params?: AstronautListParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof astronautList>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getAstronautListQueryKey(params);
 
-  
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof astronautList>>> = ({
+    signal,
+  }) => astronautList(params, { signal, ...axiosOptions });
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof astronautList>>> = ({ signal }) => astronautList(params, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof astronautList>>, TError, TData>(queryKey, queryFn, queryOptions)
+  const query = useQuery<
+    Awaited<ReturnType<typeof astronautList>>,
+    TError,
+    TData
+  >(queryKey, queryFn, queryOptions);
 
   return {
     queryKey,
-    ...query
-  }
-}
+    ...query,
+  };
+};
 
 /**
  * API endpoint that allows Astronaut to be viewed.
@@ -115,38 +126,50 @@ Fields - 'name', 'status', 'date_of_birth'
 Example - /2.2.0/astronaut/?order=name
  */
 export const astronautRetrieve = (
-    id: number, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<AstronautDetailed>> => {
-    return axios.get(
-      `/2.2.0/astronaut/${id}/`,options
-    );
+  id: number,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<AstronautDetailed>> => {
+  return axios.get(`/2.2.0/astronaut/${id}/`, options);
+};
+
+export const getAstronautRetrieveQueryKey = (id: number) => [
+  `/2.2.0/astronaut/${id}/`,
+];
+
+export type AstronautRetrieveQueryResult = NonNullable<
+  Awaited<ReturnType<typeof astronautRetrieve>>
+>;
+export type AstronautRetrieveQueryError = AxiosError<unknown>;
+
+export const useAstronautRetrieve = <
+  TData = Awaited<ReturnType<typeof astronautRetrieve>>,
+  TError = AxiosError<unknown>
+>(
+  id: number,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof astronautRetrieve>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getAstronautRetrieveQueryKey = (id: number,) => [`/2.2.0/astronaut/${id}/`];
-
-    
-export type AstronautRetrieveQueryResult = NonNullable<Awaited<ReturnType<typeof astronautRetrieve>>>
-export type AstronautRetrieveQueryError = AxiosError<unknown>
-
-export const useAstronautRetrieve = <TData = Awaited<ReturnType<typeof astronautRetrieve>>, TError = AxiosError<unknown>>(
- id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof astronautRetrieve>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getAstronautRetrieveQueryKey(id);
 
-  
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof astronautRetrieve>>> =
+    ({ signal }) => astronautRetrieve(id, { signal, ...axiosOptions });
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof astronautRetrieve>>> = ({ signal }) => astronautRetrieve(id, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof astronautRetrieve>>, TError, TData>(queryKey, queryFn, {enabled: !!(id), ...queryOptions})
+  const query = useQuery<
+    Awaited<ReturnType<typeof astronautRetrieve>>,
+    TError,
+    TData
+  >(queryKey, queryFn, { enabled: !!id, ...queryOptions });
 
   return {
     queryKey,
-    ...query
-  }
-}
-
+    ...query,
+  };
+};

@@ -1,9 +1,10 @@
 # Space Launch Now - UI
 
 ## Requirements
-* Node v16.15.0
 
-### Docker 
+- Node v16.15.0
+
+### Docker
 
 ## Run Test
 
@@ -48,7 +49,6 @@ The type must be one of the following options:
 `[ 'build', 'chore', 'ci', 'docs', 'feat', 'fix', 'perf', 'refactor', 'revert', 'style', 'test' ]`
 
 For now - scope is optional but will map to packages / directories of the code base as the project matures.
-
 
 ### Generate API Code
 

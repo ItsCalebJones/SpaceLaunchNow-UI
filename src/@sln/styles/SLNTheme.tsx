@@ -23,9 +23,12 @@ const defaultLightBackground = "#F5F5F5";
 const grayForDark = "#CFCFCF";
 const grayForLight = "#595959";
 
-const fontFamily = ["Roboto Slab", "Helvetica Neue", "Arial", "sans-serif"].join(
-  ","
-);
+const fontFamily = [
+  "Roboto Slab",
+  "Helvetica Neue",
+  "Arial",
+  "sans-serif",
+].join(",");
 
 interface themeOptions {
   prefersDarkMode: boolean;
@@ -43,7 +46,7 @@ export const getThemeOptions = ({ prefersDarkMode }: themeOptions) =>
         main: "#ffffff",
         focus: "#ffffff",
       },
-    
+
       black: {
         light: "#000000",
         main: "#000000",
@@ -103,21 +106,20 @@ export const getThemeOptions = ({ prefersDarkMode }: themeOptions) =>
           },
         },
       },
-      
 
-        // Potentially used for overriding button style, but trying to create SLNButton 
-        // // Button
-        // MuiButton: {
-        //   styleOverrides: {
-        //     // Name of the slot
-        //     root: {
-        //       borderRadius: '30px',
-        //       fontSize: '.75rem',
-        //       color: 'white',
-  
-        //     },
-        //   },
-        // },
+      // Potentially used for overriding button style, but trying to create SLNButton
+      // // Button
+      // MuiButton: {
+      //   styleOverrides: {
+      //     // Name of the slot
+      //     root: {
+      //       borderRadius: '30px',
+      //       fontSize: '.75rem',
+      //       color: 'white',
+
+      //     },
+      //   },
+      // },
     },
 
     // src/@sln/material/util/createPalette.d.ts

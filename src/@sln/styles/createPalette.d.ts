@@ -1,19 +1,19 @@
-import React from 'react'
+import React from "react";
 
-declare module '@mui/material' {
+declare module "@mui/material" {
   interface SLNThemeExtension {
-    bannerShadow: React.CSSProperties['boxShadow']
-    borderStandard: React.CSSProperties['color']
-    defaultDarkBackground: React.CSSProperties['color']
-      defaultLightBackground: React.CSSProperties['color']
-      navText: React.CSSProperties['color']
+    bannerShadow: React.CSSProperties["boxShadow"];
+    borderStandard: React.CSSProperties["color"];
+    defaultDarkBackground: React.CSSProperties["color"];
+    defaultLightBackground: React.CSSProperties["color"];
+    navText: React.CSSProperties["color"];
   }
 
   interface Theme {
-    sln: SLNThemeExtension
+    sln: SLNThemeExtension;
   }
 
   interface DeprecatedThemeOptions {
-    sln?: Partial<SLNThemeExtension>
+    sln?: Partial<SLNThemeExtension>;
   }
 }

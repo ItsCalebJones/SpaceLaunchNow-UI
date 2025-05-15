@@ -11,24 +11,19 @@ Please use https://lldev.thespacedevs.com for development testing - the developm
 If you are interested in a higher rate limit please consider supporting the project on Patreon for access to an API Key.
  * OpenAPI spec version: v2.2.0
  */
-import axios,{
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError
-} from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import {
   useQuery,
   UseQueryOptions,
   QueryFunction,
   UseQueryResult,
-  QueryKey
-} from 'react-query'
+  QueryKey,
+} from "react-query";
 import type {
   PaginatedLocationList,
   LocationListParams,
-  LocationDetail
-} from '../../model'
-
+  LocationDetail,
+} from "../../model";
 
 /**
  * API endpoint that allows Location instances to be viewed.
@@ -41,42 +36,58 @@ Parameters - 'name', 'country_code', 'id'
 Example - /2.2.0/location/?country_code=USA
  */
 export const locationList = (
-    params?: LocationListParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PaginatedLocationList>> => {
-    return axios.get(
-      `/2.2.0/location/`,{
-        params,
-    ...options}
-    );
+  params?: LocationListParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<PaginatedLocationList>> => {
+  return axios.get(`/2.2.0/location/`, {
+    params,
+    ...options,
+  });
+};
+
+export const getLocationListQueryKey = (params?: LocationListParams) => [
+  `/2.2.0/location/`,
+  ...(params ? [params] : []),
+];
+
+export type LocationListQueryResult = NonNullable<
+  Awaited<ReturnType<typeof locationList>>
+>;
+export type LocationListQueryError = AxiosError<unknown>;
+
+export const useLocationList = <
+  TData = Awaited<ReturnType<typeof locationList>>,
+  TError = AxiosError<unknown>
+>(
+  params?: LocationListParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof locationList>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getLocationListQueryKey = (params?: LocationListParams,) => [`/2.2.0/location/`, ...(params ? [params]: [])];
-
-    
-export type LocationListQueryResult = NonNullable<Awaited<ReturnType<typeof locationList>>>
-export type LocationListQueryError = AxiosError<unknown>
-
-export const useLocationList = <TData = Awaited<ReturnType<typeof locationList>>, TError = AxiosError<unknown>>(
- params?: LocationListParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof locationList>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getLocationListQueryKey(params);
 
-  
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof locationList>>> = ({
+    signal,
+  }) => locationList(params, { signal, ...axiosOptions });
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof locationList>>> = ({ signal }) => locationList(params, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof locationList>>, TError, TData>(queryKey, queryFn, queryOptions)
+  const query = useQuery<
+    Awaited<ReturnType<typeof locationList>>,
+    TError,
+    TData
+  >(queryKey, queryFn, queryOptions);
 
   return {
     queryKey,
-    ...query
-  }
-}
+    ...query,
+  };
+};
 
 /**
  * API endpoint that allows Location instances to be viewed.
@@ -89,38 +100,50 @@ Parameters - 'name', 'country_code', 'id'
 Example - /2.2.0/location/?country_code=USA
  */
 export const locationRetrieve = (
-    id: number, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<LocationDetail>> => {
-    return axios.get(
-      `/2.2.0/location/${id}/`,options
-    );
+  id: number,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<LocationDetail>> => {
+  return axios.get(`/2.2.0/location/${id}/`, options);
+};
+
+export const getLocationRetrieveQueryKey = (id: number) => [
+  `/2.2.0/location/${id}/`,
+];
+
+export type LocationRetrieveQueryResult = NonNullable<
+  Awaited<ReturnType<typeof locationRetrieve>>
+>;
+export type LocationRetrieveQueryError = AxiosError<unknown>;
+
+export const useLocationRetrieve = <
+  TData = Awaited<ReturnType<typeof locationRetrieve>>,
+  TError = AxiosError<unknown>
+>(
+  id: number,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof locationRetrieve>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getLocationRetrieveQueryKey = (id: number,) => [`/2.2.0/location/${id}/`];
-
-    
-export type LocationRetrieveQueryResult = NonNullable<Awaited<ReturnType<typeof locationRetrieve>>>
-export type LocationRetrieveQueryError = AxiosError<unknown>
-
-export const useLocationRetrieve = <TData = Awaited<ReturnType<typeof locationRetrieve>>, TError = AxiosError<unknown>>(
- id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof locationRetrieve>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getLocationRetrieveQueryKey(id);
 
-  
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof locationRetrieve>>> =
+    ({ signal }) => locationRetrieve(id, { signal, ...axiosOptions });
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof locationRetrieve>>> = ({ signal }) => locationRetrieve(id, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof locationRetrieve>>, TError, TData>(queryKey, queryFn, {enabled: !!(id), ...queryOptions})
+  const query = useQuery<
+    Awaited<ReturnType<typeof locationRetrieve>>,
+    TError,
+    TData
+  >(queryKey, queryFn, { enabled: !!id, ...queryOptions });
 
   return {
     queryKey,
-    ...query
-  }
-}
-
+    ...query,
+  };
+};

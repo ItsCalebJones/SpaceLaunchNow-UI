@@ -1,2 +1,2 @@
-export * from './makeStyles'
-export * from './SLNTheme'
+export * from "./makeStyles";
+export * from "./SLNTheme";

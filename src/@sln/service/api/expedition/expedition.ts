@@ -11,24 +11,19 @@ Please use https://lldev.thespacedevs.com for development testing - the developm
 If you are interested in a higher rate limit please consider supporting the project on Patreon for access to an API Key.
  * OpenAPI spec version: v2.2.0
  */
-import axios,{
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError
-} from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import {
   useQuery,
   UseQueryOptions,
   QueryFunction,
   UseQueryResult,
-  QueryKey
-} from 'react-query'
+  QueryKey,
+} from "react-query";
 import type {
   PaginatedExpeditionList,
   ExpeditionListParams,
-  ExpeditionDetail
-} from '../../model'
-
+  ExpeditionDetail,
+} from "../../model";
 
 /**
  * API endpoint that allows Expeditions to be viewed.
@@ -55,42 +50,58 @@ Order reverse via Start date.
 Example - /2.2.0/astronaut/?order=-start
  */
 export const expeditionList = (
-    params?: ExpeditionListParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PaginatedExpeditionList>> => {
-    return axios.get(
-      `/2.2.0/expedition/`,{
-        params,
-    ...options}
-    );
+  params?: ExpeditionListParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<PaginatedExpeditionList>> => {
+  return axios.get(`/2.2.0/expedition/`, {
+    params,
+    ...options,
+  });
+};
+
+export const getExpeditionListQueryKey = (params?: ExpeditionListParams) => [
+  `/2.2.0/expedition/`,
+  ...(params ? [params] : []),
+];
+
+export type ExpeditionListQueryResult = NonNullable<
+  Awaited<ReturnType<typeof expeditionList>>
+>;
+export type ExpeditionListQueryError = AxiosError<unknown>;
+
+export const useExpeditionList = <
+  TData = Awaited<ReturnType<typeof expeditionList>>,
+  TError = AxiosError<unknown>
+>(
+  params?: ExpeditionListParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof expeditionList>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getExpeditionListQueryKey = (params?: ExpeditionListParams,) => [`/2.2.0/expedition/`, ...(params ? [params]: [])];
-
-    
-export type ExpeditionListQueryResult = NonNullable<Awaited<ReturnType<typeof expeditionList>>>
-export type ExpeditionListQueryError = AxiosError<unknown>
-
-export const useExpeditionList = <TData = Awaited<ReturnType<typeof expeditionList>>, TError = AxiosError<unknown>>(
- params?: ExpeditionListParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof expeditionList>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getExpeditionListQueryKey(params);
 
-  
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof expeditionList>>> = ({
+    signal,
+  }) => expeditionList(params, { signal, ...axiosOptions });
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof expeditionList>>> = ({ signal }) => expeditionList(params, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof expeditionList>>, TError, TData>(queryKey, queryFn, queryOptions)
+  const query = useQuery<
+    Awaited<ReturnType<typeof expeditionList>>,
+    TError,
+    TData
+  >(queryKey, queryFn, queryOptions);
 
   return {
     queryKey,
-    ...query
-  }
-}
+    ...query,
+  };
+};
 
 /**
  * API endpoint that allows Expeditions to be viewed.
@@ -117,38 +128,50 @@ Order reverse via Start date.
 Example - /2.2.0/astronaut/?order=-start
  */
 export const expeditionRetrieve = (
-    id: number, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<ExpeditionDetail>> => {
-    return axios.get(
-      `/2.2.0/expedition/${id}/`,options
-    );
+  id: number,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<ExpeditionDetail>> => {
+  return axios.get(`/2.2.0/expedition/${id}/`, options);
+};
+
+export const getExpeditionRetrieveQueryKey = (id: number) => [
+  `/2.2.0/expedition/${id}/`,
+];
+
+export type ExpeditionRetrieveQueryResult = NonNullable<
+  Awaited<ReturnType<typeof expeditionRetrieve>>
+>;
+export type ExpeditionRetrieveQueryError = AxiosError<unknown>;
+
+export const useExpeditionRetrieve = <
+  TData = Awaited<ReturnType<typeof expeditionRetrieve>>,
+  TError = AxiosError<unknown>
+>(
+  id: number,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof expeditionRetrieve>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getExpeditionRetrieveQueryKey = (id: number,) => [`/2.2.0/expedition/${id}/`];
-
-    
-export type ExpeditionRetrieveQueryResult = NonNullable<Awaited<ReturnType<typeof expeditionRetrieve>>>
-export type ExpeditionRetrieveQueryError = AxiosError<unknown>
-
-export const useExpeditionRetrieve = <TData = Awaited<ReturnType<typeof expeditionRetrieve>>, TError = AxiosError<unknown>>(
- id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof expeditionRetrieve>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getExpeditionRetrieveQueryKey(id);
 
-  
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof expeditionRetrieve>>> =
+    ({ signal }) => expeditionRetrieve(id, { signal, ...axiosOptions });
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof expeditionRetrieve>>> = ({ signal }) => expeditionRetrieve(id, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof expeditionRetrieve>>, TError, TData>(queryKey, queryFn, {enabled: !!(id), ...queryOptions})
+  const query = useQuery<
+    Awaited<ReturnType<typeof expeditionRetrieve>>,
+    TError,
+    TData
+  >(queryKey, queryFn, { enabled: !!id, ...queryOptions });
 
   return {
     queryKey,
-    ...query
-  }
-}
-
+    ...query,
+  };
+};

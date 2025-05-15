@@ -12,4 +12,25 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type LaunchPreviousListParams = { limit?: number; mission__orbit__name?: string; mission__orbit__name__icontains?: string; name?: string; offset?: number; ordering?: string; program?: number[]; r_spacex_api_id?: string; rocket__configuration__full_name?: string; rocket__configuration__full_name__icontains?: string; rocket__configuration__id?: number; rocket__configuration__manufacturer__name?: string; rocket__configuration__manufacturer__name__icontains?: string; rocket__configuration__name?: string; rocket__spacecraftflight__spacecraft__id?: number; rocket__spacecraftflight__spacecraft__name?: string; rocket__spacecraftflight__spacecraft__name__icontains?: string; search?: string; slug?: string; status?: number };
+export type LaunchPreviousListParams = {
+  limit?: number;
+  mission__orbit__name?: string;
+  mission__orbit__name__icontains?: string;
+  name?: string;
+  offset?: number;
+  ordering?: string;
+  program?: number[];
+  r_spacex_api_id?: string;
+  rocket__configuration__full_name?: string;
+  rocket__configuration__full_name__icontains?: string;
+  rocket__configuration__id?: number;
+  rocket__configuration__manufacturer__name?: string;
+  rocket__configuration__manufacturer__name__icontains?: string;
+  rocket__configuration__name?: string;
+  rocket__spacecraftflight__spacecraft__id?: number;
+  rocket__spacecraftflight__spacecraft__name?: string;
+  rocket__spacecraftflight__spacecraft__name__icontains?: string;
+  search?: string;
+  slug?: string;
+  status?: number;
+};

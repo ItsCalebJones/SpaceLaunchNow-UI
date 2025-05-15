@@ -11,24 +11,19 @@ Please use https://lldev.thespacedevs.com for development testing - the developm
 If you are interested in a higher rate limit please consider supporting the project on Patreon for access to an API Key.
  * OpenAPI spec version: v2.2.0
  */
-import axios,{
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError
-} from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import {
   useQuery,
   UseQueryOptions,
   QueryFunction,
   UseQueryResult,
-  QueryKey
-} from 'react-query'
+  QueryKey,
+} from "react-query";
 import type {
   PaginatedLauncherList,
   LauncherListParams,
-  LauncherDetail
-} from '../../model'
-
+  LauncherDetail,
+} from "../../model";
 
 /**
  * API endpoint that allows Launcher instances to be viewed.
@@ -49,42 +44,58 @@ Fields - 'id', 'flight_proven',
 Example - /2.2.0/launcher/?order=flight_proven
  */
 export const launcherList = (
-    params?: LauncherListParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PaginatedLauncherList>> => {
-    return axios.get(
-      `/2.2.0/launcher/`,{
-        params,
-    ...options}
-    );
+  params?: LauncherListParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<PaginatedLauncherList>> => {
+  return axios.get(`/2.2.0/launcher/`, {
+    params,
+    ...options,
+  });
+};
+
+export const getLauncherListQueryKey = (params?: LauncherListParams) => [
+  `/2.2.0/launcher/`,
+  ...(params ? [params] : []),
+];
+
+export type LauncherListQueryResult = NonNullable<
+  Awaited<ReturnType<typeof launcherList>>
+>;
+export type LauncherListQueryError = AxiosError<unknown>;
+
+export const useLauncherList = <
+  TData = Awaited<ReturnType<typeof launcherList>>,
+  TError = AxiosError<unknown>
+>(
+  params?: LauncherListParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof launcherList>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getLauncherListQueryKey = (params?: LauncherListParams,) => [`/2.2.0/launcher/`, ...(params ? [params]: [])];
-
-    
-export type LauncherListQueryResult = NonNullable<Awaited<ReturnType<typeof launcherList>>>
-export type LauncherListQueryError = AxiosError<unknown>
-
-export const useLauncherList = <TData = Awaited<ReturnType<typeof launcherList>>, TError = AxiosError<unknown>>(
- params?: LauncherListParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof launcherList>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getLauncherListQueryKey(params);
 
-  
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof launcherList>>> = ({
+    signal,
+  }) => launcherList(params, { signal, ...axiosOptions });
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof launcherList>>> = ({ signal }) => launcherList(params, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof launcherList>>, TError, TData>(queryKey, queryFn, queryOptions)
+  const query = useQuery<
+    Awaited<ReturnType<typeof launcherList>>,
+    TError,
+    TData
+  >(queryKey, queryFn, queryOptions);
 
   return {
     queryKey,
-    ...query
-  }
-}
+    ...query,
+  };
+};
 
 /**
  * API endpoint that allows Launcher instances to be viewed.
@@ -105,38 +116,50 @@ Fields - 'id', 'flight_proven',
 Example - /2.2.0/launcher/?order=flight_proven
  */
 export const launcherRetrieve = (
-    id: number, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<LauncherDetail>> => {
-    return axios.get(
-      `/2.2.0/launcher/${id}/`,options
-    );
+  id: number,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<LauncherDetail>> => {
+  return axios.get(`/2.2.0/launcher/${id}/`, options);
+};
+
+export const getLauncherRetrieveQueryKey = (id: number) => [
+  `/2.2.0/launcher/${id}/`,
+];
+
+export type LauncherRetrieveQueryResult = NonNullable<
+  Awaited<ReturnType<typeof launcherRetrieve>>
+>;
+export type LauncherRetrieveQueryError = AxiosError<unknown>;
+
+export const useLauncherRetrieve = <
+  TData = Awaited<ReturnType<typeof launcherRetrieve>>,
+  TError = AxiosError<unknown>
+>(
+  id: number,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof launcherRetrieve>>,
+      TError,
+      TData
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getLauncherRetrieveQueryKey = (id: number,) => [`/2.2.0/launcher/${id}/`];
-
-    
-export type LauncherRetrieveQueryResult = NonNullable<Awaited<ReturnType<typeof launcherRetrieve>>>
-export type LauncherRetrieveQueryError = AxiosError<unknown>
-
-export const useLauncherRetrieve = <TData = Awaited<ReturnType<typeof launcherRetrieve>>, TError = AxiosError<unknown>>(
- id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof launcherRetrieve>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const {query: queryOptions, axios: axiosOptions} = options ?? {}
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getLauncherRetrieveQueryKey(id);
 
-  
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof launcherRetrieve>>> =
+    ({ signal }) => launcherRetrieve(id, { signal, ...axiosOptions });
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof launcherRetrieve>>> = ({ signal }) => launcherRetrieve(id, { signal, ...axiosOptions });
-
-  const query = useQuery<Awaited<ReturnType<typeof launcherRetrieve>>, TError, TData>(queryKey, queryFn, {enabled: !!(id), ...queryOptions})
+  const query = useQuery<
+    Awaited<ReturnType<typeof launcherRetrieve>>,
+    TError,
+    TData
+  >(queryKey, queryFn, { enabled: !!id, ...queryOptions });
 
   return {
     queryKey,
-    ...query
-  }
-}
-
+    ...query,
+  };
+};

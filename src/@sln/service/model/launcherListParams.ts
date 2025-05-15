@@ -12,4 +12,14 @@ If you are interested in a higher rate limit please consider supporting the proj
  * OpenAPI spec version: v2.2.0
  */
 
-export type LauncherListParams = { flight_proven?: boolean; id?: number; launcher_config?: number; launcher_config__manufacturer?: number; limit?: number; offset?: number; ordering?: string; search?: string; serial_number?: string };
+export type LauncherListParams = {
+  flight_proven?: boolean;
+  id?: number;
+  launcher_config?: number;
+  launcher_config__manufacturer?: number;
+  limit?: number;
+  offset?: number;
+  ordering?: string;
+  search?: string;
+  serial_number?: string;
+};

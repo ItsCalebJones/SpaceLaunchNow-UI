@@ -11,8 +11,8 @@ Please use https://lldev.thespacedevs.com for development testing - the developm
 If you are interested in a higher rate limit please consider supporting the project on Patreon for access to an API Key.
  * OpenAPI spec version: v2.2.0
  */
-import type { SpacecraftDetailedNoFlights } from './spacecraftDetailedNoFlights';
-import type { LaunchSerializerCommon } from './launchSerializerCommon';
+import type { SpacecraftDetailedNoFlights } from "./spacecraftDetailedNoFlights";
+import type { LaunchSerializerCommon } from "./launchSerializerCommon";
 
 export interface SpacecraftFlightForDockingEvent {
   id: number;
