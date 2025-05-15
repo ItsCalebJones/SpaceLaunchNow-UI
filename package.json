@@ -26,7 +26,7 @@
     "@types/react-dom": "^18.0.3",
     "axios": "^0.26.1",
     "chroma-js": "2.1.2",
-    "cypress": "^9.6.1",
+    "cypress": "^14.3.3",
     "cypress-multi-reporters": "^1.5.0",
     "fetch": "^1.1.0",
     "flatpickr": "4.6.9",
