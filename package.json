@@ -13,7 +13,7 @@
   "dependencies": {
     "@emotion/cache": "11.4.0",
     "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
+    "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^5.8.2",
     "@mui/material": "^5.8.2",
     "@mui/styled-engine": "^5.7.0",
