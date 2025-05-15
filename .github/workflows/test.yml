@@ -27,8 +27,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
         
+      - name: Setup Cypress cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            cypress-cache-${{ runner.os }}-
+            
       - name: Run Cypress tests
-        run: npm run ci:e2e
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm start
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 120
+          browser: chrome
+          record: false
         
       - name: Generate Cypress report
         run: npm run cypress:report:createBundle

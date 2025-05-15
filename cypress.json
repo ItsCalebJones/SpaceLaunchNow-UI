@@ -2,6 +2,8 @@
     "video": false,
     "viewportWidth": 1280,
     "viewportHeight": 1024,
+    "pageLoadTimeout": 120000,
+    "defaultCommandTimeout": 10000,
     "reporter": "cypress-multi-reporters",
     "reporterOptions": {
         "reporterEnabled": "mochawesome,mocha-junit-reporter",
