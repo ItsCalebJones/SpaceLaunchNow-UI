@@ -46,7 +46,7 @@
     "react-query": "^3.39.1",
     "react-router-dom": "6.3.0",
     "react-scripts": "5.0.1",
-    "react-syntax-highlighter": "15.4.5",
+    "react-syntax-highlighter": "15.6.1",
     "rellax": "1.12.1",
     "swiper": "7.3.4",
     "tss-react": "^3.6.0",
