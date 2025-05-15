@@ -153,7 +153,7 @@ jobs:
           else
             helm upgrade $RELEASE_NAME k8s/helm/ --namespace=$DEPLOYMENT_NAMESPACE --values $VALUES
             # Restart the pods (replacing deprecated --recreate-pods flag)
-            kubectl rollout restart deployment/$RELEASE_NAME-web -n $DEPLOYMENT_NAMESPACE
+            kubectl rollout restart deployment/$RELEASE_NAME-$IMAGE_NAME-web -n $DEPLOYMENT_NAMESPACE
           fi
       
       - name: Send Discord Notification
